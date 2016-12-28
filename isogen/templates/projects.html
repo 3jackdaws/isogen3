@@ -1,0 +1,52 @@
+
+{% include "head.html" %}
+
+{% include "navigation.html" %}
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Featured Project
+                </h1>
+                <h2 class="subtitle">
+
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="container is-flex" style="justify-content: space-around">
+        {% for project in projects %}
+
+        <div class="card">
+            <div class="card-image" style="overflow: hidden; position: relative">
+                <div class="image" style="background-image: url('{{ project.url }}');"></div>
+
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-32x32">
+                            <img src="" alt="Image">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <p class="title is-5">{{ project.name }}</p>
+                        <p class="subtitle is-6"><a href="{{ project.url }}">{{ site.url }}</a></p>
+                    </div>
+                </div>
+                <div class="content">
+                    {{ project.description }}<br>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+</body>
+<script>
+
+</script>
+

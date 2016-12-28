@@ -1,0 +1,27 @@
+
+
+.card{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    float: left;
+}
+
+.card .content{
+    height: 80px;
+}
+
+.image{
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+.overlap{
+    margin-bottom: -7px;
+    background-color: white;
+    position: relative;
+    display: inline-block;
+}

@@ -1,0 +1,88 @@
+
+{% include "head.html" %}
+
+{% include "navigation.html" %}
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Available Files
+                </h1>
+                <h2 class="subtitle">
+                    Files you have access to
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="container" style="padding-top: 30px;">
+        <div class="columns">
+            <div class="column is-one-third">
+                <div class="panel">
+                    <p class="panel-heading">
+                        Files
+                    </p>
+                    {% for file in files %}
+                    <a class="panel-block is-active" onclick="showTab(event, '{{ file.file.name }}')">
+                        <span class="panel-icon">
+                            <i class="fa fa-book"></i>
+                        </span>
+                        {{ file.file.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="column is-two-thirds" style="">
+                <div class="box is-fullheight is-fullwidth" >
+
+                        {% for file in files %}
+                        <div id="{{ file.file.name }}" class="tab" style="display: none; font-size: 16px;">
+                            <strong>FILE NAME: </strong><span class="is-primary">{{file.file.name}}</span>
+                            <br>
+                            <strong>FILE SIZE: </strong><span class="is-primary">{{file.file.size}} bytes</span>
+                            <br>
+                            <strong>EXPLICIT ACCESS: </strong>
+                            <span class="is-primary">
+                            {% for member in file.members_allowed.all %}
+                            <a>{{ member }}</a>
+                            {% endfor %}
+                            </span>
+                            <br>
+                            <div class="content" style="word-wrap: break-word; overflow: wrap;">
+                                {{file.contents}}
+                            </div>
+                            <a class="button is-primary" target="_blank" href="/static/downloads/{{file.file.url}}" download>DOWNLOAD</a>
+
+
+
+                        </div>
+                        {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function showTab(event, tabName){
+        var tabs = document.getElementsByClassName('tab');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].style.display = "none";
+        }
+        document.getElementById(tabName).style.display = "block";
+        console.log(document.getElementById(tabName));
+    }
+    var frame = null;
+    <!--function download(url){-->
+        <!--if(frame) document.body.removeChild(frame);-->
+        <!--var frame = document.createElement("iframe");-->
+        <!--frame.style.visibility = "hidden";-->
+        <!--frame.src = url;-->
+        <!--frame.mim-->
+        <!--document.body.appendChild(frame);-->
+    <!--}-->
+</script>
+
+
