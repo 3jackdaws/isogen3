@@ -27,7 +27,7 @@ def directory(request):
     if request.user.is_authenticated():
         user = request.user
     sites = DirectoryEntry.objects.order_by('priority')[:5]
-    context = {'sites': sites, "title":"Test", "login_form":get_nav_form(request), "user":user}
+    context = {'sites': sites, "title":"Directory - ISOGEN", "login_form":get_nav_form(request), "user":user}
     return render(request, 'directory.html', context)
 
 def get_nav_form(request):
