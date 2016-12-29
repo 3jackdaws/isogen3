@@ -24,8 +24,7 @@ class FileAdmin(admin.ModelAdmin):
 
 admin.site.register(Project, DemoAdmin)
 admin.site.register(ProjectStatus)
-admin.site.register(Subdomain)
-admin.site.register(Technologies)
+admin.site.register(DirectoryEntry)
 admin.site.register(File, FileAdmin)
 admin.site.register(Tag)
 

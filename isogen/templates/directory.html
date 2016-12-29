@@ -8,10 +8,10 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    Subdomain Directory
+                    Isogen Directory
                 </h1>
                 <h2 class="subtitle">
-                    Isogen.net related domains
+                    Isogen.net notable locations
                 </h2>
             </div>
         </div>
@@ -19,26 +19,18 @@
     <div class="container is-flex" style="justify-content: space-around">
         {% for site in sites %}
 
-        <div class="card" onclick="window.location='{{ site.url }}'" style="cursor:pointer">
-            <div class="card-image" style="overflow: hidden; position: relative">
-                <div class="image" style="background-image: url('{{ site.picture_url }}');"></div>
-
+        <div class="card directory" onclick="window.location='{{ site.url }}'" style="cursor:pointer">
+            <div style="text-align: center; font-size: 100px; padding: 50px;">
+                <i class="fa {{ site.icon }}" aria-hidden="true"></i>
             </div>
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-left">
-                        <figure class="image is-32x32">
-                            <img src="" alt="Image">
-                        </figure>
-                    </div>
-                    <div class="media-content">
-                        <p class="title is-5">{{ site.title }}</p>
-                        <p class="subtitle is-6"><a href="{{ site.url }}">{{ site.url }}</a></p>
-                    </div>
-                </div>
-                <div class="content">
-                    {{ site.description }}<br>
-                </div>
+            <div class="card-content" style="text-align: center;">
+
+                <h1 class="title">{{ site.title }}</h1>
+
+                <p class="content">
+                    {{ site.description }}
+                </p>
+
             </div>
         </div>
         {% endfor %}

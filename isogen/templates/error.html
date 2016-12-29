@@ -1,0 +1,24 @@
+
+{% include "head.html" %}
+
+<body>
+    <div class="container is-flex" style="height: 100%;justify-content: center; align-items: center; flex-flow: row wrap;">
+        <div class="card is-flex" style="padding: 30px; justify-content: center; align-items:center;width: 300px; height: 300px; flex-flow: row wrap;">
+            <div class="" style="text-align:center; width: 100%; margin-bottom: -100px;">
+                <strong class="title">
+                    {{ error_code }}
+                </strong>
+                <br>
+                <strong>
+                    {{ error_msg }}
+                </strong>
+                <br>
+
+            </div>
+
+            <a class="is-primary" href="/directory" style="width: 100%; text-align:center; align-self: flex-bottom; margin-bottom: -90px;">Directory</a>
+        </div>
+    </div>
+</body>
+
+

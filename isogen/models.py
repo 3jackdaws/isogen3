@@ -18,11 +18,11 @@ class Tag(Model):
     def __str__(self):
         return self.name
 
-class Subdomain(Model):
-    url = models.URLField()
+class DirectoryEntry(Model):
+    url = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=400)
-    picture_url = models.URLField(max_length=200)
+    icon = models.CharField(max_length=32, default="fa-leaf")
     priority = models.SmallIntegerField()
 
     def __str__(self):
@@ -36,13 +36,6 @@ class ProjectStatus(Model):
     def __str__(self):
         return self.name
 
-class Technologies(Model):
-    name = models.CharField(max_length=32)
-    description = models.CharField(max_length=400)
-    url = models.URLField(verbose_name="Technology Web Site")
-
-    def __str__(self):
-        return self.name
 
 
 class Project(Model):
@@ -50,9 +43,10 @@ class Project(Model):
     url = models.URLField(verbose_name="Project URL")
     name = models.CharField(max_length=100)
     start_date = models.DateField()
-    end_date = models.DateField(default=None, blank=True)
+    end_date = models.DateField(default=None, null=True, blank=True)
     status = models.ForeignKey(ProjectStatus)
-    technologies = models.ManyToManyField(Technologies)
+    technologies = models.ManyToManyField(Tag)
+
     date_joined = models.DateTimeField(auto_now=True)
 
     def __str__(self):

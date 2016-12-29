@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse
 import os, tempfile, zipfile
 from django.template import loader
 from wsgiref.util import FileWrapper
-from isogen.models import Subdomain, Project, ProjectUpdates, File, LoginForm, LogoutForm
+from isogen.models import DirectoryEntry, Project, ProjectUpdates, File, LoginForm, LogoutForm
 from isogen.settings import MEDIA_ROOT
 from django.contrib.auth import logout, login, authenticate
 import json
@@ -26,7 +26,7 @@ def directory(request):
     user = None
     if request.user.is_authenticated():
         user = request.user
-    sites = Subdomain.objects.order_by('priority')[:5]
+    sites = DirectoryEntry.objects.order_by('priority')[:5]
     context = {'sites': sites, "title":"Test", "login_form":get_nav_form(request), "user":user}
     return render(request, 'directory.html', context)
 
@@ -81,5 +81,15 @@ def user_logout(request):
 
 
 def members(request, member):
-
     return HttpResponse(member)
+
+def error(request, number):
+    error_msg = ""
+    msgs = {404:"It looks like you're lost.", 403:"That's not allowed :^)", 501:"This page doesn't exist yet."}
+    if number in msgs:
+        error_msg = msgs[number]
+    context = {"title": "Error - ISOGEN", "error_code":number, "error_msg":error_msg}
+    return render(request, 'error.html', context)
+
+def error_nf(request):
+    return error(request, 404)

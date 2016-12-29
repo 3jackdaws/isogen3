@@ -12,6 +12,10 @@
     height: 80px;
 }
 
+.directory:hover{
+    color: #22D0B2;
+}
+
 .image{
     height: 200px;
     background-size: cover;
