@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.html import escape
+import os
 
 
 from isogen.settings import STATIC_URL
@@ -60,6 +61,7 @@ class ProjectUpdates(Model):
 class File(Model):
     file = models.FileField()
     members_allowed = models.ManyToManyField(User, default=None, blank=True)
+    description = models.CharField(max_length=400, default="No description provided.")
     date_added = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, default=None, blank=True)
 
@@ -67,12 +69,12 @@ class File(Model):
         return self.file.name
 
     def contents(self):
-
         try:
             content = open(self.file.path).read()
             return escape(content)
         except Exception as e:
             return "This file type cannot be displayed here."
+
 
 
 

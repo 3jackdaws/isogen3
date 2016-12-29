@@ -18,19 +18,21 @@
     </section>
     <div class="container" style="padding-top: 30px;">
         <div class="columns">
-            <div class="column is-one-third">
-                <div class="panel">
-                    <p class="panel-heading">
-                        Files
-                    </p>
-                    {% for file in files %}
-                    <a class="panel-block is-active" onclick="showTab(event, '{{ file.file.name }}')">
-                        <span class="panel-icon">
-                            <i class="fa fa-book"></i>
-                        </span>
-                        {{ file.file.name }}
-                    </a>
-                    {% endfor %}
+            <div class="column is-4">
+                <div class="container">
+                    <nav class="panel" style="background-color: white">
+                        <p class="panel-heading">
+                            Files
+                        </p>
+                        {% for file in files %}
+                        <a class="panel-block is-primary" onclick="showTab(event, '{{ file.file.name }}')">
+                            <span class="panel-icon">
+                                <i class="fa fa-book"></i>
+                            </span>
+                            {{ file.file.name }}
+                        </a>
+                        {% endfor %}
+                    </nav>
                 </div>
             </div>
 
@@ -39,24 +41,33 @@
 
                         {% for file in files %}
                         <div id="{{ file.file.name }}" class="tab" style="display: none; font-size: 16px;">
-                            <strong>FILE NAME: </strong><span class="is-primary">{{file.file.name}}</span>
+                            <div class="columns">
+                                <div class="column">
+                                    <strong>FILE NAME: </strong><span class="is-primary">{{file.file.name}}</span>
+                                    <br>
+                                    <strong>FILE SIZE: </strong><span class="is-primary">{{file.file.size}} bytes</span>
+                                    <br>
+                                    <strong>EXPLICIT ACCESS: </strong>
+                                    <span class="is-primary">
+                                    {% for member in file.members_allowed.all %}
+                                    <a>{{ member }}</a>
+                                    {% endfor %}
+                                    </span>
+                                </div>
+                                <div class="column is-narrow" ">
+                                    <a class="button is-primary is-outlined"  target="_blank" href="/static/media/{{file.file.url}}" download>DOWNLOAD</a>
+                                </div>
+                            </div>
+
+                            <strong>DESCRIPTION:</strong>
+                            <div class="content">
+                                {{ file.description }}
+                            </div>
                             <br>
-                            <strong>FILE SIZE: </strong><span class="is-primary">{{file.file.size}} bytes</span>
-                            <br>
-                            <strong>EXPLICIT ACCESS: </strong>
-                            <span class="is-primary">
-                            {% for member in file.members_allowed.all %}
-                            <a>{{ member }}</a>
-                            {% endfor %}
-                            </span>
-                            <br>
+                            <strong>CONTENTS:</strong>
                             <div class="content" style="word-wrap: break-word; overflow: wrap;">
                                 {{file.contents}}
                             </div>
-                            <a class="button is-primary" target="_blank" href="/static/downloads/{{file.file.url}}" download>DOWNLOAD</a>
-
-
-
                         </div>
                         {% endfor %}
 
