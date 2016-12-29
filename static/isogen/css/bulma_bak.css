@@ -150,7 +150,7 @@ body {
 }
 
 a {
-  color: hsl(275, 85%, 55%);
+  color: #00d1b2;
   cursor: pointer;
   text-decoration: none;
   -webkit-transition: none 86ms ease-out;
@@ -619,11 +619,11 @@ table th {
 }
 
 a.box:hover, a.box:focus {
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px hsl(275, 85%, 55%);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #00d1b2;
 }
 
 a.box:active {
-  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px hsl(275, 85%, 55%);
+  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #00d1b2;
 }
 
 @keyframes spin-around {
@@ -680,7 +680,7 @@ a.box:active {
 }
 
 .button:active, .button:focus, .button.is-active {
-  border-color: hsl(275, 85%, 55%);
+  border-color: #00d1b2;
   outline: none;
 }
 
@@ -891,7 +891,7 @@ a.box:active {
 }
 
 .button.is-primary {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
   border-width: 0;
   color: white;
 }
@@ -904,7 +904,7 @@ a.box:active {
 
 .button.is-primary.is-inverted {
   background-color: white;
-  color: hsl(275, 85%, 55%);
+  color: #00d1b2;
 }
 
 .button.is-primary.is-inverted:hover {
@@ -917,14 +917,14 @@ a.box:active {
 
 .button.is-primary.is-outlined {
   background-color: transparent;
-  border-color: hsl(275, 85%, 55%);
+  border-color: #00d1b2;
   border-width: 1px;
-  color: hsl(275, 85%, 55%);
+  color: #00d1b2;
 }
 
 .button.is-primary.is-outlined:hover, .button.is-primary.is-outlined:focus {
-  background-color: hsl(275, 85%, 55%);
-  border-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
+  border-color: #00d1b2;
   color: white;
 }
 
@@ -1168,7 +1168,7 @@ a.box:active {
 }
 
 .content a:not(.button):hover {
-  border-bottom-color: hsl(275, 85%, 55%);
+  border-bottom-color: #00d1b2;
 }
 
 .content li + li {
@@ -1329,7 +1329,7 @@ a.box:active {
 .textarea:active,
 .textarea:focus,
 .textarea.is-active {
-  border-color: hsl(275, 85%, 55%);
+  border-color: #00d1b2;
   outline: none;
 }
 
@@ -1388,7 +1388,7 @@ a.box:active {
 
 .input.is-primary,
 .textarea.is-primary {
-  border-color: hsl(275, 85%, 55%);
+  border-color: #00d1b2;
 }
 
 .input.is-info,
@@ -1542,7 +1542,7 @@ a.box:active {
 }
 
 .select select:active, .select select:focus, .select select.is-active {
-  border-color: hsl(275, 85%, 55%);
+  border-color: #00d1b2;
   outline: none;
 }
 
@@ -1586,7 +1586,7 @@ a.box:active {
 }
 
 .select select.is-primary {
-  border-color: hsl(275, 85%, 55%);
+  border-color: #00d1b2;
 }
 
 .select select.is-info {
@@ -1622,7 +1622,7 @@ a.box:active {
 }
 
 .select:after {
-  border: 1px solid hsl(275, 85%, 55%);
+  border: 1px solid #00d1b2;
   border-right: 0;
   border-top: 0;
   content: " ";
@@ -1715,7 +1715,7 @@ a.box:active {
 }
 
 .help.is-primary {
-  color: hsl(275, 85%, 55%);
+  color: #00d1b2;
 }
 
 .help.is-info {
@@ -2168,7 +2168,7 @@ a.box:active {
 }
 
 .notification.is-primary {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
   color: white;
 }
 
@@ -2253,11 +2253,11 @@ a.box:active {
 }
 
 .progress.is-primary::-webkit-progress-value {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
 }
 
 .progress.is-primary::-moz-progress-bar {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
 }
 
 .progress.is-info::-webkit-progress-value {
@@ -2372,7 +2372,7 @@ a.box:active {
 
 .table td.is-link > a:hover,
 .table th.is-link > a:hover {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
   color: white;
 }
 
@@ -2907,7 +2907,7 @@ a.box:active {
 }
 
 .tag.is-primary {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
   color: white;
 }
 
@@ -3522,11 +3522,11 @@ a.box:active {
 
 .menu-list a:hover {
   background-color: whitesmoke;
-  color: hsl(275, 85%, 55%);
+  color: #00d1b2;
 }
 
 .menu-list a.is-active {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
   color: white;
 }
 
@@ -3644,12 +3644,12 @@ a.box:active {
 }
 
 .message.is-primary .message-header {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
   color: white;
 }
 
 .message.is-primary .message-body {
-  border-color: hsl(275, 85%, 55%);
+  border-color: #00d1b2;
   color: gray;
 }
 
@@ -3961,7 +3961,7 @@ a.box:active {
 }
 
 .nav-toggle.is-active span {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
 }
 
 .nav-toggle.is-active span:nth-child(1) {
@@ -4065,15 +4065,15 @@ a.nav-item.is-tab {
 
 .nav-item a.is-tab:hover,
 a.nav-item.is-tab:hover {
-  border-bottom: 1px solid hsl(275, 85%, 55%);
+  border-bottom: 1px solid #00d1b2;
   border-top: 1px solid transparent;
 }
 
 .nav-item a.is-tab.is-active,
 a.nav-item.is-tab.is-active {
-  border-bottom: 3px solid hsl(275, 85%, 55%);
+  border-bottom: 3px solid #00d1b2;
   border-top: 3px solid transparent;
-  color: hsl(275, 85%, 55%);
+  color: #00d1b2;
 }
 
 @media screen and (max-width: 768px) {
@@ -4342,7 +4342,7 @@ a.nav-item.is-tab.is-active {
 }
 
 .panel-list a:hover {
-  color: hsl(275, 85%, 55%);
+  color: #00d1b2;
 }
 
 .panel-tabs {
@@ -4458,8 +4458,8 @@ a.panel-block:hover {
 }
 
 .tabs li.is-active a {
-  border-bottom-color: hsl(275, 85%, 55%);
-  color: hsl(275, 85%, 55%);
+  border-bottom-color: #00d1b2;
+  color: #00d1b2;
 }
 
 .tabs ul {
@@ -4575,8 +4575,8 @@ a.panel-block:hover {
 }
 
 .tabs.is-toggle li.is-active a {
-  background-color: hsl(275, 85%, 55%);
-  border-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
+  border-color: #00d1b2;
   color: white;
   z-index: 1;
 }
@@ -6227,7 +6227,7 @@ a.panel-block:hover {
 }
 
 .hero.is-primary {
-  background-color: hsl(275, 85%, 55%);
+  background-color: #00d1b2;
   color: white;
 }
 
@@ -6255,7 +6255,7 @@ a.panel-block:hover {
 
 @media screen and (max-width: 768px) {
   .hero.is-primary .nav-menu {
-    background-color: hsl(275, 85%, 55%);
+    background-color: #00d1b2;
   }
 }
 
@@ -6294,12 +6294,12 @@ a.panel-block:hover {
 .hero.is-primary .tabs.is-boxed li.is-active a, .hero.is-primary .tabs.is-boxed li.is-active a:hover, .hero.is-primary .tabs.is-toggle li.is-active a, .hero.is-primary .tabs.is-toggle li.is-active a:hover {
   background-color: white;
   border-color: white;
-  color: hsl(275, 85%, 55%);
+  color: #00d1b2;
 }
 
 .hero.is-primary.is-bold {
-  background-image: -webkit-linear-gradient(309deg, #009e6c 0%, hsl(275, 85%, 55%) 71%, #00e7eb 100%);
-  background-image: linear-gradient(141deg, #009e6c 0%, hsl(275, 85%, 55%) 71%, #00e7eb 100%);
+  background-image: -webkit-linear-gradient(309deg, #009e6c 0%, #00d1b2 71%, #00e7eb 100%);
+  background-image: linear-gradient(141deg, #009e6c 0%, #00d1b2 71%, #00e7eb 100%);
 }
 
 @media screen and (max-width: 768px) {
@@ -6759,6 +6759,6 @@ a.panel-block:hover {
 }
 
 .footer a:not(.icon):hover, .footer a:visited:not(.icon):hover {
-  border-bottom-color: hsl(275, 85%, 55%);
+  border-bottom-color: #00d1b2;
 }
 /*# sourceMappingURL=bulma.css.map */

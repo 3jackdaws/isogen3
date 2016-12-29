@@ -8,15 +8,15 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    Isogen Directory
+                    Directory
                 </h1>
                 <h2 class="subtitle">
-                    Isogen.net notable locations
+                    Isogen locations and related domains
                 </h2>
             </div>
         </div>
     </section>
-    <div class="container is-flex" style="justify-content: space-around">
+    <div class="container is-flex" style="justify-content: space-around; flex-flow: row wrap; padding-top: 10px">
         {% for site in sites %}
 
         <div class="card directory" onclick="window.location='{{ site.url }}'" style="cursor:pointer">
@@ -36,7 +36,7 @@
         {% endfor %}
     </div>
 
-    </div>
+    {% include 'footer.html' %}
 </body>
 <script>
 

@@ -93,3 +93,6 @@ def error(request, number):
 
 def error_nf(request):
     return error(request, 404)
+
+def error_ni(request, *args):
+    return error(request, 501)

@@ -1,10 +1,7 @@
 
 
 .card{
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin: 40px;
     float: left;
 }
 
@@ -13,7 +10,7 @@
 }
 
 .directory:hover{
-    color: #22D0B2;
+    color: hsl(275, 100%, 55%);
 }
 
 .image{
