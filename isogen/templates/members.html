@@ -1,0 +1,39 @@
+{% include "components/head.html" %}
+
+{% include "components/navigation.html" %}
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Members
+                </h1>
+                <h2 class="subtitle">
+                    Isogen.net members and contributors
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="container is-flex" style="justify-content: space-around; flex-wrap: row">
+        {% for member in member_list %}
+        <div class="card">
+            <div class="card-image" style="overflow: hidden; position: relative">
+                <div class="image" style="background-image: url('/static/media/{{ member.image.url }}');"></div>
+            </div>
+            <div class="card-content">
+                <div class="media">
+
+                    <div class="media-content">
+                        <p class="title is-4">{{ member.user.first_name }} {{ member.user.last_name}}</p>
+                        <p class="subtitle is-6"><a href="{{ member.website }}">{{ member.url }}</a></p>
+                    </div>
+                </div>
+                <div class="content">
+                    {{ member.bio }}<br>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>

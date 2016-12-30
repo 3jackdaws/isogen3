@@ -11,7 +11,14 @@
 
 .directory:hover{
     color: hsl(275, 100%, 55%);
+    transform: scale(1);
 }
+
+.directory:active{
+    transform: scale(0.98);
+}
+
+
 
 .image{
     height: 200px;
@@ -25,4 +32,10 @@
     background-color: white;
     position: relative;
     display: inline-block;
+}
+
+
+@keyframes scale-press {
+    from{transform: scale(1)}
+    to{transform: scale(0.95)}
 }

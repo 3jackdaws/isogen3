@@ -1,11 +1,12 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 import os, tempfile, zipfile
 from django.template import loader
 from wsgiref.util import FileWrapper
-from isogen.models import DirectoryEntry, Project, ProjectUpdates, File, LoginForm, LogoutForm
+from isogen.models import DirectoryEntry, Project, ProjectUpdates, File, LoginForm, LogoutForm, MemberRegisterForm, IsogenMember
 from isogen.settings import MEDIA_ROOT
 from django.contrib.auth import logout, login, authenticate
 import json
+from django.contrib.auth.models import User, Group
 
 
 
@@ -22,12 +23,19 @@ def index(request):
     context = {'projects': projects, "title": "Home - ISOGEN", "login_form":get_nav_form(request), "user":user}
     return render(request, 'projects.html', context)
 
-def directory(request):
+def directory(request, search=None):
     user = None
     if request.user.is_authenticated():
         user = request.user
-    sites = DirectoryEntry.objects.order_by('priority')[:5]
-    context = {'sites': sites, "title":"Directory - ISOGEN", "login_form":get_nav_form(request), "user":user}
+    if search is not None:
+        sites = []
+        for site in DirectoryEntry.objects.order_by("priority"):
+            if search.lower() in site.title.lower() or search.lower() in site.description.lower():
+                sites.append(site)
+    else:
+        sites = DirectoryEntry.objects.order_by("priority")
+
+    context = {'sites': sites, "title":"Directory - ISOGEN", "login_form":get_nav_form(request), "user":user, "search":search}
     return render(request, 'directory.html', context)
 
 def get_nav_form(request):
@@ -80,8 +88,67 @@ def user_logout(request):
         return HttpResponse(json.dumps({"success": True}))
 
 
-def members(request, member):
-    return HttpResponse(member)
+def members(request, member=None):
+    if member is None:
+        member_list = IsogenMember.objects.all()
+    else:
+        member_list = [User.objects.get(username=member)]
+    context = {"title": "Members - ISOGEN", "member_list":member_list}
+    return render(request, 'members.html', context)
+
+def register(request, ajax = False):
+    def did_reg(form):
+        if form.is_valid():
+            username = request.POST['username']
+            email = request.POST['email']
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            password = request.POST['password']
+            user = User.objects.create_user(username, email, password, first_name=first_name, last_name=last_name)
+            member = IsogenMember(user=user)
+            login(request, user)
+            return True
+        else:
+            return False
+
+    if request.method == 'POST':
+        form = MemberRegisterForm(request.POST)
+        if did_reg(form):
+            if ajax:
+                return HttpResponse(json.dumps({
+                    "action":"register",
+                    "success":True
+                }))
+            else:
+                return HttpResponse(json.dumps({
+                    "action": "register",
+                    "success": True,
+                    "redirect":"/me/"
+                }))
+        else:
+            if ajax:
+                return HttpResponse(json.dumps({
+                    "action": "register",
+                    "success": False,
+                    "errors":str(form.errors)
+                }))
+            else:
+                return HttpResponse("That didn't work :(")
+    else:
+        context = {"title": "Register - ISOGEN", "register_form":MemberRegisterForm}
+        return render(request, 'register.html', context)
+
+
+
+def me(request):
+    user = None
+    if request.user.is_authenticated():
+        user = request.user
+        member = IsogenMember.objects.get(user=user)
+        context = {"title": "Your Account - ISOGEN", "user": user, "member":member, "login_form":get_nav_form(request)}
+        return render(request, 'me.html', context)
+    else:
+        return HttpResponse("You must login to view this page.")
 
 def error(request, number):
     error_msg = ""

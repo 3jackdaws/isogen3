@@ -1,0 +1,48 @@
+
+{% include "components/head.html" %}
+
+{% include "components/navigation.html" %}
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Your Account
+                </h1>
+                <h2 class="subtitle">
+                    . . . . . .
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="box">
+
+            <strong>USERNAME: </strong>
+            {{ member.user.username }}
+            <br>
+            <strong>NAME: </strong>
+            {{ member.user.first_name }} {{ member.user.last_name}}
+            <br>
+            <strong>EMAIL: </strong>
+            {{ member.user.email }}
+            <br>
+            <strong>BIO: </strong>
+            <div class="content">
+                {{ member.bio }}
+            </div>
+
+            <br>
+
+        </div>
+
+
+    </div>
+
+    {% include 'components/footer.html' %}
+</body>
+<script>
+
+</script>
+

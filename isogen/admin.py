@@ -27,5 +27,6 @@ admin.site.register(ProjectStatus)
 admin.site.register(DirectoryEntry)
 admin.site.register(File, FileAdmin)
 admin.site.register(Tag)
+admin.site.register(IsogenMember)
 
 

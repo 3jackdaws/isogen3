@@ -5,6 +5,11 @@
                     <i class="fa fa-github"></i>
                 </span>
         </a>
+        <p class="control has-addons nav-item  ">
+            <input class="input" id="s" name="s" placeholder="Search Directory">
+            <a class="button" onclick="searchFor()"><span class="fa fa-search"></span></a>
+        </p>
+
     </div>
     <div class="nav-center is-brand">
         <a class="nav-item is-brand" href="#">
@@ -22,7 +27,7 @@
         <a class="nav-item" id="menu-directory" href="/directory">Directory</a>
         <a class="nav-item" id="menu-contact" href="/contact">Contact</a>
         <span class="nav-item">
-                <a id="sign-in-button" class="button is-primary is-outlined" href="#" onclick="toggleLogin()">
+                <a id="sign-in-button" class="button" href="#" onclick="toggleLogin()">
                     {% if user %}
                         Logged in as {{user.username}}
                     {% else %}
@@ -45,14 +50,15 @@
             <!--<button class="delete"></button>-->
         </header>
         <section class="modal-card-body">
-            <form id='login-form' action="/{{ login_form.action.lower }}/" onsubmit="submitForm(event, this); return false">
+            <form id='login-form' action="/{{ login_form.action.lower }}/" onsubmit="login(event, this); return false">
                 {% csrf_token %}
                 {{ login_form }}
 
             </form>
         </section>
         <footer class="modal-card-foot">
-            <a class="button is-primary" onclick="submitForm(event, document.getElementById('login-form'))">{{ login_form.action }}</a>
+            <a class="button is-primary" onclick="login(event, document.getElementById('login-form'))">{{ login_form.action }}</a>
+            <a class="button is-outline" href="/register/">Register</a>
             <a class="button" onclick="toggleLogin()">Cancel</a>
         </footer>
     </div>
@@ -67,24 +73,18 @@
         }
     }
 
-    function submitForm(event, form){
-        event.preventDefault();
-        var url = form.getAttribute("action");
-        var datastring = $(form).serialize();
-        console.log(datastring, url);
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: datastring,
-            success: function(data) {
-                var action = JSON.parse(data);
-                console.log(action);
-                if (action.success){
-                    location.reload();
-                }else{
-                    toggleLogin();
-                }
-            }
-        });
+    function login(event, form){
+        submitForm(event, form, function () {
+            location.reload();
+        }, function (data) {
+            toggleLogin();
+        })
     }
+
+    function searchFor(){
+        var query = document.getElementById("s").value;
+        console.log(query);
+        window.location = "/directory/" + query;
+    }
+
 </script>

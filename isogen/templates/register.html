@@ -1,0 +1,40 @@
+{% include "components/head.html" %}
+
+{% include "components/navigation.html" %}
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Featured Project
+                </h1>
+                <h2 class="subtitle">
+
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div id="error" class="container is-flex" style="justify-content: space-around; padding-top: 50px;">
+        <form onsubmit="register(event, this)" action="/register/ajax/" style="max-width: 400px;">
+        {% csrf_token %}
+        {{ register_form }}
+            <button class="button is-primary is-outlined" type="">SUBMIT</button>
+        </form>
+
+    </div>
+</body>
+<script>
+    function register(event, form){
+        submitForm(event, form, function(){
+            window.location = "/me/";
+        }, function(data){
+            var fe = Object.keys(data.errors)[0];
+            var not = notification(data.errors, true, "is-danger");
+            setTimeout(function(){
+                document.getElementById('error').removeChild(not);
+            }, 5000)
+            document.getElementById('error').appendChild(not);
+        });
+    }
+</script>

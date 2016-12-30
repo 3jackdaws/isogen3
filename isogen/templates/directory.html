@@ -1,22 +1,29 @@
 
-{% include "head.html" %}
+{% include "components/head.html" %}
 
-{% include "navigation.html" %}
+{% include "components/navigation.html" %}
 
-<body>
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
+                    {% if search %}
+                    Directory Search
+                    {% else %}
                     Directory
+                    {% endif %}
                 </h1>
                 <h2 class="subtitle">
-                    Isogen locations and related domains
+                    Isogen locations and related domains.
+                    {% if search %}
+                    Looking for "{{search}}".
+                    {% endif %}
                 </h2>
             </div>
         </div>
     </section>
-    <div class="container is-flex" style="justify-content: space-around; flex-flow: row wrap; padding-top: 10px">
+    <div class="container is-flex" id='cards' style="justify-content: space-around; flex-flow: row wrap; padding-top: 10px">
+        {% if sites %}
         {% for site in sites %}
 
         <div class="card directory" onclick="window.location='{{ site.url }}'" style="cursor:pointer">
@@ -25,20 +32,42 @@
             </div>
             <div class="card-content" style="text-align: center;">
 
-                <h1 class="title">{{ site.title }}</h1>
+                <h1 class="title searchable">{{ site.title }}</h1>
 
-                <p class="content">
+                <p class="content searchable">
                     {{ site.description }}
                 </p>
 
             </div>
         </div>
         {% endfor %}
+        {% else %}
+
+            <h1 class="title is-1" style="padding: 200px; color: #888">
+                No matches.
+            </h1>
+
+        {% endif %}
     </div>
 
-    {% include 'footer.html' %}
-</body>
+    {% include 'components/footer.html' %}
 <script>
-
+    {% if search %}
+    var searchTerm = '{{ search }}';
+    {% else %}
+    var searchTerm = '';
+    {% endif %}
+    if(searchTerm.length > 0){
+        window.addEventListener("load", function(){
+            console.log(searchTerm);
+            var text = document.getElementById('cards').querySelectorAll(".searchable");
+            var len = text.length;
+            console.log(len);
+            for(var i = 0; i<len; i++){
+                text[i].innerHTML = text[i].innerHTML.replace(new RegExp("(" + searchTerm + ")", "i") , "<a>$1</a>");
+            }
+            
+        });
+    }
 </script>
 
