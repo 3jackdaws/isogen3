@@ -1,0 +1,79 @@
+
+{% include "components/head.html" %}
+
+{% include "components/navigation.html" %}
+
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Discord Webhook Executor
+                </h1>
+                <h2 class="subtitle">
+
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="container is-flex" id='cards' style="justify-content: space-around; flex-flow: row wrap; padding-top: 10px">
+        <form style="">
+            <div class="control is-horizontal">
+                <label style="margin-right: 5px;">
+                    Custom Username
+                    <input class="input" name="username" placeholder="(not required)">
+                </label>
+                <label style="margin-left: 5px;">
+                    Custom Avatar URL
+                    <input class="input" name="avatar_url" placeholder="(not required)">
+                </label>
+
+            </div>
+            <label>Webhook URL</label>
+            <input class="input" name="url" placeholder="(required)">
+            <label>Content</label>
+            <textarea class="textarea" name="content" placeholder="(required)"></textarea>
+            <button style="margin-top: 5px;" type="button" class="button is-primary" onclick="execute(this.parentNode)">SEND</button>
+            <button style="margin-top: 5px;" type="button" class="button " onclick="execute(this.parentNode['content'].value = '')">CLEAR CONTENT</button>
+
+        </form>
+    </div>
+
+    {% include 'components/footer.html' %}
+<script>
+    function execute(form){
+        var button = form.querySelector("button");
+        button.className += " is-loading";
+        var payload = {};
+        var url = form['url'].value + "?wait=true";
+        payload['content'] = form['content'].value;
+
+        var botname = form['username'].value;
+        if(botname) payload['username'] = botname;
+
+        var avatar_url = form['avatar_url'].value;
+        if(avatar_url) payload['avatar_url'] = avatar_url;
+
+        var datastring = JSON.stringify(payload);
+        console.log(datastring);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datastring,
+            success: function(message) {
+                if ("nonce" in message){
+                    button.className = "button is-success";
+                    button.innerHTML = "Webhook Executed!";
+
+                }else{
+                    button.className = "button is-danger";
+                    button.innerHTML = "Webhook Failed!";
+                }
+                setTimeout(function () {
+                    button.className = "button is-primary";
+                    button.innerHTML = "SEND";
+                }, 3000);
+            }
+        });
+    }
+</script>
+

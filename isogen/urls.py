@@ -19,6 +19,7 @@ urlpatterns = [
 
 
     url(r'^meme/', include("apps.memes.urls")),
+    url(r'^shinobu/', include("apps.shinobu.urls")),
 
     url(r'.', views.error_nf, name='error'),
 ]
