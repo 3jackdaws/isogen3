@@ -40,5 +40,4 @@ def procedures(request, procedure, args):
         output = module.function(*parameters)
     except Exception as e:
         output = str(e)
-        output += "<br>" + str(sys.path)
     return HttpResponse(output)
