@@ -1,4 +1,12 @@
+html{
+    min-height: 100%;
+}
 
+body{
+    position:relative;
+    padding-bottom: 200px;
+    min-height: 100%;
+}
 
 .card{
     margin: 40px;
