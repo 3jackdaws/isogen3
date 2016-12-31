@@ -16,21 +16,28 @@
         </div>
     </section>
     <div class="container is-flex" id='cards' style="justify-content: space-around; flex-flow: row wrap; padding-top: 10px">
-        <form style="">
+        <form style="" id="wh">
             <div class="control is-horizontal">
                 <label style="margin-right: 5px;">
-                    Custom Username
+                    <strong>Custom Username</strong>
                     <input class="input" name="username" placeholder="(not required)">
                 </label>
                 <label style="margin-left: 5px;">
-                    Custom Avatar URL
-                    <input class="input" name="avatar_url" placeholder="(not required)">
+                    <strong>Custom Avatar URL</strong>
+                    <input class="input" name="avatar_url" placeholder="(not required)" oninput="loadAvatar(this)">
                 </label>
+                <img id='avatar-preview' class=""  src=""style="position: absolute;bottom: 1px; right: 1px; margin-left: -32px; height:30px; width: 30px; border-radius: 50%; border:none;">
 
             </div>
-            <label>Webhook URL</label>
-            <input class="input" name="url" placeholder="(required)">
-            <label>Content</label>
+            <label>
+                <strong>Webhook: </strong><span id="wh-name"></span>
+                <div class="control is-horizontal">
+                    <input class="input" name="url" placeholder="Webhook URL (required)" style="margin-right: 5px;" oninput="checkWebhookURL(this.parentNode.querySelector('button'))">
+                    <button type="button" class="button" onclick="checkWebhookURL(this)">CHECK</button>
+                </div>
+            </label>
+            <div id="webhook-check"></div>
+            <label><strong>Content</strong></label>
             <textarea class="textarea" name="content" placeholder="(required)"></textarea>
             <button style="margin-top: 5px;" type="button" class="button is-primary" onclick="execute(this.parentNode)">SEND</button>
             <button style="margin-top: 5px;" type="button" class="button " onclick="execute(this.parentNode['content'].value = '')">CLEAR CONTENT</button>
@@ -74,6 +81,49 @@
                 }, 3000);
             }
         });
+    }
+
+    function checkWebhookURL(button){
+        var form = document.getElementById('wh');
+        var url = form['url'].value;
+        document.getElementById("webhook-check").innerHTML = "";
+        var input = button.parentNode.querySelector("input");
+        button.className+= " is-loading";
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function(webhook) {
+                try{
+                    "name" in webhook;
+                    button.innerHTML = "VALID";
+                    button.className = 'button is-success';
+                    console.log(webhook);
+                    input.className="input is-success";
+                    document.getElementById("wh-name").innerHTML = webhook.name;
+                }catch (e){
+                    button.innerHTML = "INVALID";
+                    button.className = 'button is-danger';
+                    input.className="input is-danger";
+                }
+            },error:function(){
+                button.innerHTML = "INVALID";
+                button.className = 'button is-danger';
+                input.className="input is-danger";
+            }
+        });
+    }
+
+    function resetButton(button, text, classname, time){
+        setTimeout(function () {
+            button.innerHTML = text;
+            button.className = classname;
+        }, time);
+    }
+
+    function loadAvatar(input) {
+        var url = input.value;
+        var avatarPreview = document.getElementById('avatar-preview');
+        avatarPreview.src=url;
     }
 </script>
 
