@@ -70,7 +70,7 @@ class ProjectUpdates(Model):
 
 class File(Model):
     file = models.FileField()
-    members_allowed = models.ManyToManyField(IsogenMember, default=None, blank=True)
+    members_allowed = models.ManyToManyField(User, default=None, blank=True)
     description = models.CharField(max_length=400, default="No description provided.")
     date_added = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, default=None, blank=True)
