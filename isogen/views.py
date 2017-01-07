@@ -7,10 +7,11 @@ from isogen.settings import MEDIA_ROOT
 from django.contrib.auth import logout, login, authenticate
 import json
 from django.contrib.auth.models import User, Group
-
+from django.http.request import HttpRequest
 
 
 # Create your views here.
+# no u
 def index(request):
     # try:
     #     featured = Project.objects.get(featured=1)
@@ -50,9 +51,19 @@ def downloads(request):
     if request.user.is_authenticated():
         user = request.user
     # files = File.objects.all()
-    files = [x for x in File.objects.all() if user in x.members_allowed.all() or len(x.members_allowed.all()) == 0]
+    visible_files = []
+    for file in File.objects.all():
+        if user in file.members_allowed.all() or len(file.members_allowed.all()) == 0:
+            try:
+                file.file.size
 
-    context = {'files': files, "title": "Downloads - ISOGEN", "login_form":get_nav_form(request), "user":user}
+                visible_files.append(file)
+            except Exception as e:
+                print(e)
+                pass
+
+
+    context = {'files': visible_files, "title": "Downloads - ISOGEN", "login_form":get_nav_form(request), "user":user}
     return render(request, 'downloads.html', context)
 
 
@@ -62,10 +73,10 @@ def send_file(request, filename):
     memory at once. The FileWrapper will turn the file object into an
     iterator for chunks of 8KB.
     """
-    filename = MEDIA_ROOT + filename
-    wrapper = FileWrapper(open(filename))
-    response = HttpResponse(wrapper, content_type='text/plain')
+    wrapper = FileWrapper(open(filename, "rb"))
+    response = HttpResponse(wrapper, content_type='download')
     response['Content-Length'] = os.path.getsize(filename)
+    response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(filename)
     return response
 
 def user_login(request):
@@ -163,3 +174,8 @@ def error_nf(request):
 
 def error_ni(request, *args):
     return error(request, 501)
+
+def get(request, fileid):
+    file = File.objects.get(id=fileid)
+    file_path = file.file.path
+    return send_file(request, file_path)

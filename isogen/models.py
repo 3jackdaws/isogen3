@@ -11,6 +11,13 @@ from isogen.settings import STATIC_URL
 
 # Create your models here.
 
+def sizeof_hr(num, suffix='B'):
+    for unit in ['','K','M','G','T','P','E','Z']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Y', suffix)
+
 class IsogenMember(Model):
     user = models.OneToOneField(User)
     website = models.URLField(blank=True, default=None)
@@ -83,7 +90,10 @@ class File(Model):
             content = open(self.file.path).read()
             return escape(content)
         except Exception as e:
-            return "This file type cannot be displayed here."
+            return None
+
+    def hr_size(self):
+        return sizeof_hr(self.file.size)
 
 
 class LoginForm(forms.Form):

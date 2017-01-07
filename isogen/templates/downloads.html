@@ -25,7 +25,7 @@
                             Files
                         </p>
                         {% for file in files %}
-                        <a class="panel-block is-primary" onclick="showTab(event, '{{ file.file.name }}')">
+                        <a class="panel-block tab-selector is-primary" onclick="activate(this); showTab(event, '{{ file.file.name }}')">
                             <span class="panel-icon">
                                 <i class="fa fa-book"></i>
                             </span>
@@ -44,33 +44,35 @@
                             <div class="column">
                                 <strong>FILE NAME: </strong><span class="is-primary">{{file.file.name}}</span>
                                 <br>
-                                <strong>FILE SIZE: </strong><span class="is-primary">{{file.file.size}} bytes</span>
+                                <strong>FILE SIZE: </strong><span class="is-primary">{{file.hr_size }}</span>
                                 <br>
                                 <strong>RESTRICTED TO: </strong>
                                 <span class="is-primary">
-                                {% for member in file.members_allowed.all %}
-                                <span class="tag is-primary is-outline">{{ member }}</span>
+                                {% for user in file.members_allowed.all %}
+                                <span class="tag is-primary is-outline">{{ user }}</span>
                                 {% endfor %}
                                 </span>
                             </div>
 
                             <div class="column is-narrow" >
-                                <a class="button is-primary is-outlined"  target="_blank" href="/static/media/{{file.file.url}}" download>DOWNLOAD</a>
+                                <a class="button is-primary is-outlined" href="/get/{{file.id}}" download>DOWNLOAD</a>
                             </div>
                         </div>
+                        <strong>DESCRIPTION:</strong>
+                        <div class="content">
+                            {{ file.description }}
+                        </div>
+                        <br>
+                        <strong>CONTENTS:</strong>
+                        {% if file.contents %}
+                        <pre class="" style="word-wrap: break-word; overflow: wrap;">{{file.contents}}</pre>
+                        {% else %}
+                        This file type cannot be displayed.
+                        {% endif %}
                     </div>
-
-                    <strong>DESCRIPTION:</strong>
-                    <div class="content">
-                        {{ file.description }}
-                    </div>
-                    <br>
-                    <strong>CONTENTS:</strong>
-                    <div class="content" style="word-wrap: break-word; overflow: wrap;">
-                        {{file.contents}}
-                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+
             </div>
         </div>
     </div>
@@ -85,6 +87,14 @@
         }
         document.getElementById(tabName).style.display = "block";
         console.log(document.getElementById(tabName));
+    }
+
+    function activate(item) {
+        var selectors = document.getElementsByClassName('tab-selector');
+        for (var i = 0; i < selectors.length; i++) {
+            selectors[i].classList.remove("active");
+        }
+        item.classList.add("active");
     }
 </script>
 

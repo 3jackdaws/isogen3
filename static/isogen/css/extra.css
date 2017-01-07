@@ -26,6 +26,10 @@ body{
     transform: scale(0.98);
 }
 
+.tab-selector.active{
+    color: hsl(275, 100%, 55%);
+}
+
 
 
 .image{
@@ -42,6 +46,9 @@ body{
     display: inline-block;
 }
 
+pre{
+    white-space: pre-wrap;
+}
 
 @keyframes scale-press {
     from{transform: scale(1)}
