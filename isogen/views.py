@@ -161,13 +161,19 @@ def me(request):
     else:
         return HttpResponse("You must login to view this page.")
 
+
 def error(request, number):
     error_msg = ""
-    msgs = {404:"It looks like you're lost.", 403:"That's not allowed :^)", 501:"This page doesn't exist yet."}
+    number = int(number)
+    msgs = {
+        404: "It looks like you're lost.",
+        401: "You're not allowed here :^)",
+        403: "I'm afraid I can't do that, Dave.",
+        501: "This page doesn't exist yet."}
     if number in msgs:
         error_msg = msgs[number]
     context = {"title": "Error - ISOGEN", "error_code":number, "error_msg":error_msg}
-    return render(request, 'error.html', context)
+    return render(request, 'error.html', context, status=number)
 
 def error_nf(request):
     return error(request, 404)
@@ -175,7 +181,19 @@ def error_nf(request):
 def error_ni(request, *args):
     return error(request, 501)
 
+def error_403(request):
+    return error(request, 403)
+
 def get(request, fileid):
-    file = File.objects.get(id=fileid)
-    file_path = file.file.path
-    return send_file(request, file_path)
+    requested_file = File.objects.get(id=fileid)
+    authenticated_user = None
+    if request.user.is_authenticated():
+        authenticated_user = request.user
+    # files = File.objects.all()
+    visible_files = []
+
+    if authenticated_user in requested_file.members_allowed.all() or len(requested_file.members_allowed.all()) == 0:
+        file_path = requested_file.file.path
+        return send_file(request, file_path)
+    else:
+        return error_403(request)
