@@ -41,3 +41,22 @@ def procedures(request, procedure, args):
     except Exception as e:
         output = str(e)
     return HttpResponse(output)
+
+def get_shinobu_db_cursor():
+    db = DATABASES['default']
+    connection = pymysql.Connect(host=db['HOST'],
+                                 user=db['USER'],
+                                 password=db['PASSWORD'],
+                                 database='shinobu',
+                                 cursorclass=pymysql.cursors.DictCursor)
+    return connection.cursor()
+
+def reichlist(request):
+    user = None
+    if request.user.is_authenticated():
+        user = request.user
+    cursor = get_shinobu_db_cursor()
+    results = cursor.execute("SELECT * FROM Reichlist JOIN Accounts ON Accounts.UserID = Reichlist.ItemContributor")
+    entries = cursor.fetchall()
+    context = {"title": "Shinobu Reichlist Entries", "login_form": get_nav_form(request), "user": user, "entries":entries}
+    return render(request, 'shinobu/reichlist.html', context)
