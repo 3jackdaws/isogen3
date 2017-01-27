@@ -1,5 +1,11 @@
 from django.db.models import Model
 from django.db import models
+import isogen.settings
 
-class Procedure(Model):
-    script = models.FileField(upload_to="procedures")
+
+class Stickynote(Model):
+    content = models.CharField(max_length=512)
+    style = models.CharField(max_length=1024)
+    x = models.IntegerField()
+    y = models.IntegerField()
+    z = models.IntegerField()

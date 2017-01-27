@@ -34,3 +34,26 @@ function submitForm(event, form, on_success, on_fail){
         }
     });
 }
+
+function toggleLogin(){
+    var logModal = document.getElementById('login');
+    if (logModal.className.search(/is-active/) == -1){
+        logModal.className += " is-active";
+    }else{
+        logModal.className = logModal.className.replace(/is-active/, "");
+    }
+}
+
+function login(event, form){
+    submitForm(event, form, function () {
+        location.reload();
+    }, function (data) {
+        toggleLogin();
+    })
+}
+
+function searchFor(){
+    var query = document.getElementById("s").value;
+    console.log(query);
+    window.location = "/directory/" + query;
+}

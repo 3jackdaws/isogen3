@@ -184,16 +184,53 @@ def error_ni(request, *args):
 def error_403(request):
     return error(request, 403)
 
-def get(request, fileid):
-    requested_file = File.objects.get(id=fileid)
+def user_can_access_file(user, file):
+    if user in file.members_allowed.all() or len(file.members_allowed.all()) == 0:
+        return True
+    return False
+
+def get(request, fileid=None):
     authenticated_user = None
     if request.user.is_authenticated():
         authenticated_user = request.user
-    # files = File.objects.all()
-    visible_files = []
+    if fileid:
+        try:
+            requested_file = File.objects.get(id=fileid)
+        except:
+            return error_403(request)
 
-    if authenticated_user in requested_file.members_allowed.all() or len(requested_file.members_allowed.all()) == 0:
-        file_path = requested_file.file.path
-        return send_file(request, file_path)
+        if user_can_access_file(authenticated_user, requested_file):
+
+            file_path = requested_file.file.path
+
+            return send_file(request, file_path)
+
+        else:
+            return error_403(request)
+
     else:
-        return error_403(request)
+        visible_files = []
+        all_files = File.objects.all()
+        for file in all_files:
+            if user_can_access_file(authenticated_user, file):
+                visible_files.append(file)
+        file_json_response = []
+
+        for file in visible_files:
+            file_json_response.append({
+                "name":file.file.name,
+                "url":"https://isogen.net/get/"+str(file.id),
+                "description":file.description,
+                "restricted_to":[str(x) for x in file.members_allowed.all()]
+            })
+
+
+        return HttpResponse(json.dumps(
+            file_json_response,
+            indent=2
+        ), content_type='application/json')
+
+
+    # files = File.objects.all()
+
+

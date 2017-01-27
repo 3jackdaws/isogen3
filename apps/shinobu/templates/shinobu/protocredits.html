@@ -1,0 +1,31 @@
+{% include "components/head.html" %}
+
+{% include "components/navigation.html" %}
+
+    <div class="container" style="">
+        <div class="card" style="padding: 10px;">
+            <button class="button is-primary is-outlined" onclick="genProtocredit()"><i class="fa fa-leaf"></i> </button>
+            Protocredits: <span id="p-number">0</span>
+        </div>
+    </div>
+    <script>
+        var numberProtocredits = 0.0;
+        var incrementing = false;
+        function genProtocredit() {
+            if(!incrementing){
+                incrementing = true;
+                numberProtocredits += 0.01;
+                updateProtocredits();
+                setTimeout(function () {
+                    incrementing = false;
+                }, 1000);
+            }
+
+        }
+
+        function updateProtocredits(){
+            document.getElementById("p-number").innerHTML = Math.round(numberProtocredits * 100) / 100;
+        }
+    </script>
+
+{% include 'components/footer.html' %}

@@ -54,3 +54,68 @@ pre{
     from{transform: scale(1)}
     to{transform: scale(0.95)}
 }
+
+.context-menu{
+    position: absolute;
+    box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+    background-color: #fefefe;
+    min-width: 150px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 4px;
+    z-index: 9999999999999999;
+}
+
+.context-menu a{
+    width: 100%;
+    display: inline-block;
+    text-decoration: none;
+    padding: 3px 20px 3px 20px;
+
+}
+
+.context-menu a:hover{
+    background-color: #4286f4;
+    color: white;
+    cursor: pointer;
+}
+
+.context-menu p{
+    padding: 5px 20px 5px 20px;
+
+    border-bottom: 1px solid lightgrey;
+    width: 100%;
+}
+
+.context-menu hr{
+    margin: 5px;
+}
+
+.stickynote{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,.5);
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAADhJREFUCB1j/P9u5hkGBsYGBjD4D6ZZIBwQCRKASDJBGBAVEAkGBqAgCMC0g+j/DUDtMFUwCQYGALW4D2DIX5GaAAAAAElFTkSuQmCC);
+    /*background-color: #ffee99;*/
+    resize: none;
+    padding: 10px;
+    padding-top: 15px;
+    cursor: text;
+    border: 1px solid #ddcc66;
+    -webkit-appearance: none;
+    color: #333;
+    outline: none;
+    cursor: pointer;
+}
+
+.stickynote:focus{
+    cursor: auto;
+}
+
+
+.stickynote.editable{
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+}
+
+

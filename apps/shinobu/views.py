@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from isogen.views import get_nav_form
+from apps.shinobu.models import Stickynote
 import pymysql
 from isogen.settings import DATABASES, BASE_DIR
 import sys
@@ -60,3 +61,20 @@ def reichlist(request):
     entries = cursor.fetchall()
     context = {"title": "Shinobu Reichlist Entries", "login_form": get_nav_form(request), "user": user, "entries":entries}
     return render(request, 'shinobu/reichlist.html', context)
+
+def notes(request):
+    user = None
+    if request.user.is_authenticated():
+        user = request.user
+    stickynotes = Stickynote.objects.all()
+    context = {"title": "Sticky Notes", "login_form": get_nav_form(request), "user": user, "notes":stickynotes}
+    return render(request, 'shinobu/stickynotes.html', context)
+
+
+def protocredit(request):
+    user = None
+    if request.user.is_authenticated():
+        user = request.user
+    stickynotes = Stickynote.objects.all()
+    context = {"title": "Protocredits", "login_form": get_nav_form(request), "user": user}
+    return render(request, 'shinobu/protocredits.html', context)
