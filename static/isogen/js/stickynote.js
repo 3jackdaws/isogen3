@@ -22,7 +22,7 @@
             ContextMenu.create(event, ContextMenuNodeLists['note-container']);
         });
 
-        NoteSocket = new WebSocket("ws:localhost:8000");
+        NoteSocket = new WebSocket("ws:isogen.net:8000");
         NoteSocket.onmessage = function (evt) {
             var message = JSON.parse(evt.data);
             // console.info(message);
