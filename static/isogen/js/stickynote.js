@@ -11,13 +11,11 @@
 
     window.addEventListener("load", function(){
 
-
         zRatio = screen.width/1200;
         if(!(zRatio < 1)) zRatio=1;
         console.log(zRatio);
 
         NoteContainer = document.getElementById("note-container");
-
 
 
         NoteContainer.addEventListener("contextmenu", function(event){
@@ -27,9 +25,9 @@
         NoteSocket = new WebSocket("ws:localhost:8000");
         NoteSocket.onmessage = function (evt) {
             var message = JSON.parse(evt.data);
-            console.info(message);
-            switch(message.object){
-                case "note":
+            // console.info(message);
+            switch(message.action){
+                case "alter":
                 {
                     if(message.id in StickyNotes){
                         if (StickyNotes[message.id] != HeldNote){
@@ -44,13 +42,30 @@
                         NoteContainer.appendChild(note.node);
                     }
                 }
+                break;
+
+                case "delete":
+                {
+                    console.log("del");
+                    if(message.id in StickyNotes){
+                        var note = StickyNotes[message.id];
+                        note.remove();
+                    }
+                }
+                break;
+
+                case "notify":
+                {
+                    console.log("notify");
+                    Notification.Toast.message(message.text);
+                }
             }
         }
 
         NoteSocket.onopen = function(){
             NoteSocket.send(JSON.stringify(
                 {
-                "action":"fetch"
+                    "action":"fetch"
                 }
             ))};
 
@@ -90,7 +105,7 @@
         if(HeldNote){
             HeldNote.save();
         }
-    }, 100);
+    }, 50);
 
     var StickyNote = function(content, x, y, z, id, style){
 
@@ -101,7 +116,6 @@
         this.setContent(content);
         this.node.style = style;
         this.setPosition(x,y,z);
-        this.node.style.transition = "left 1s top 1s";
         this.node['object'] = this;
         this.node.readOnly = true;
         this.node.onclick = function (event) {
@@ -131,16 +145,14 @@
             this.object.hasChanged = true;
         };
 
-        this.node.oncontextmenu = function (event) {
-            ContextMenu.create(event, [
-                ContextMenu.createLabel("Note"),
-                ContextMenu.createMenuLink("Translate", "", function () {
-                    var note = _this.node;
-                    note.object.translate(100, 100);
-                })
-            ]);
-        }
+        var obj = this;
 
+        this.node.oncontextmenu = function (event) {
+            ContextMenu.create(event, noteContextNodes(obj));
+        };
+
+        this.node.style.transitionDuration = "0.2s";
+        this.node.style.transitionProperty = "transform";
     };
 
     StickyNote.prototype.remove = function () {
@@ -166,12 +178,12 @@
     StickyNote.prototype.translate = function (x,y) {
         var currentX = parseInt(this.node.style.left.slice(0,-2));
         var currentY = parseInt(this.node.style.top.slice(0,-2));
-        console.log(currentX);
-        this.node.style.transitionDuration = "0.2s";
-        this.node.style.transitionProperty = "transform";
 
-        this.node.style.transform = "translate(" + x-currentX + "px," + y-currentY + "px)"
-        console.log(this.node.style.transform);
+        var dx = x-currentX;
+        var dy = y-currentY;
+        var tform = "translate(" + dx + "px," + dy + "px)";
+        this.node.style.transform = tform;
+        // console.log(tform, x, dx, y, dy);
 
     }
 
@@ -196,21 +208,29 @@
                 "id":this.id,
                 "content":this.node.value,
                 "style":this.node.className,
-                "x":this.node.style.left,
-                "y":this.node.style.top,
+                "x":this.node.style.left.slice(0,-2),
+                "y":this.node.style.top.slice(0,-2),
                 "z":this.node.style.zIndex
             };
             NoteSocket.send(JSON.stringify(message));
         }
     };
 
+    StickyNote.prototype.signalDelete = function () {
+        var message = {
+                "action":"delete",
+                "id":this.id
+            };
+        NoteSocket.send(JSON.stringify(message));
+    };
+
 
     function noteContextNodes(note){
         var label = ContextMenu.createLabel("Note");
         var deletenote = ContextMenu.createMenuLink("Delete Note", "warning", function(){
-            note.object.remove();
-
+            note.signalDelete();
         });
 
         return [label, deletenote];
     }
+

@@ -189,6 +189,12 @@ def user_can_access_file(user, file):
         return True
     return False
 
+def json_response(request, obj):
+    return HttpResponse(json.dumps(
+            obj,
+            indent=2
+        ), content_type='application/json')
+
 def get(request, fileid=None):
     authenticated_user = None
     if request.user.is_authenticated():
@@ -225,10 +231,7 @@ def get(request, fileid=None):
             })
 
 
-        return HttpResponse(json.dumps(
-            file_json_response,
-            indent=2
-        ), content_type='application/json')
+        return json_response(request, file_json_response)
 
 
     # files = File.objects.all()

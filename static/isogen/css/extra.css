@@ -118,4 +118,31 @@ pre{
     box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
 }
 
+.toast {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: 0;
+    text-align: center;
+    color: black;
+    width: 200px;
+    overflow: visible;
+    overflow-wrap: break-word;
+    overflow-clip: wrap;
+    padding: 15px;
+    animation: 0.3s toast-pop forwards;
+    outline: 1px solid #9f1aff;
+    outline-offset: -3px;
+}
+
+@keyframes toast-pop {
+    from {
+        margin-bottom: 0;
+    }
+    to {
+        margin-bottom: 100px;
+    }
+}
+
 
