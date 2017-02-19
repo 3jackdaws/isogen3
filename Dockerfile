@@ -2,17 +2,21 @@ FROM 	python:latest
 RUN 	apt-get update 
 RUN 	apt-get install -y apache2 libapache2-mod-wsgi-py3 python3-pip
 
-RUN 	pip3 install pymysql
+RUN 	python3.4 -m pip install django pymysql
 
 WORKDIR /opt
-RUN mkdir memecon
-COPY . memecon/
+RUN mkdir isogen
+COPY . isogen/
 
-VOLUME /opt/memecon
-VOLUME /etc/apache2/sites-available
+VOLUME /opt/isogen
+WORKDIR /etc/apache2/sites-enabled
+RUN pwd
+RUN rm -f *
+COPY isogen.conf .
+
 
 EXPOSE 80
 EXPOSE 3306
 
-ENTRYPOINT bash
+ENTRYPOINT bash -c "service apache2 restart; bash"
 
