@@ -139,7 +139,13 @@
     }
 
     function get_extension(string){
-        return string.split(".").pop();
+        return string.split(".").pop().toLowerCase();
+    }
+
+    function decode_ext(string){
+        var filetype = ExtensionIconDict[get_extension(string)];
+        if( ! filetype ) filetype = "fa-file-o";
+        return filetype;
     }
 
     var ExtensionIconDict = {
@@ -147,7 +153,12 @@
         txt:"fa-file-text-o",
         docx:"fa-file-word-o",
         doc:"fa-file-word-o",
-        tar:"fa-file-archive-o"
+        tar:"fa-file-archive-o",
+        zip:"fa-file-archive-o",
+        png:"fa-file-iamge-o",
+        jpg:"fa-file-iamge-o",
+        jpeg:"fa-file-iamge-o"
+
 
     };
 
@@ -156,7 +167,7 @@
         var len = icons.length;
         while(icons.length > 0){
             var icon = icons[icons.length-1];
-            icon.className = "fa " + ExtensionIconDict[get_extension(icon.getAttribute("filename"))];
+            icon.className = "fa " + decode_ext(icon.getAttribute("filename"));
         }
 
 
