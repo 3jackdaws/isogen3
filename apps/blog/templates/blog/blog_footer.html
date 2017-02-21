@@ -1,0 +1,34 @@
+{% if footer_posts %}
+    <div class="columns">
+    {% for post in footer_posts %}
+        <div class="column" style="min-height: 20%;">
+            <div class="box">
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-64x64">
+                            <img src="/media/{{ post.header_picture.url }}" alt="Image">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                              <strong>{{ post.author.all.0 }}</strong> - <small>{{ post.datetime_posted.date }}</small>
+                              <br>
+                              {{ post.subtitle }}
+                            </p>
+                        </div>
+                        <nav class="level">
+                            <div class="level-left">
+
+                            </div>
+                        </nav>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+    {% endfor %}
+    </div>
+
+
+{% endif %}

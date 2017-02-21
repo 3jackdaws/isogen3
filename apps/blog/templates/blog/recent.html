@@ -1,0 +1,25 @@
+{% if posts %}
+{% for post in posts %}
+
+<div class="card blog-post hover-expand" onclick="window.location='/blog/post/{{ post.id }}'" style="cursor:pointer">
+    <div style="background-image: url('/media/{{ post.header_picture.url }}'); height: 200px; background-size: cover; background-position: center center">
+
+    </div>
+    <div class="card-content" style="text-align: center;">
+
+        <h1 class="title searchable">{{ post.title }}</h1>
+
+        <p class="content searchable">
+            {{ post.subtitle }}
+        </p>
+        {{ post.get_tags_str }}
+    </div>
+</div>
+{% endfor %}
+{% else %}
+
+    <h1 class="title is-1" style="padding: 200px; color: #888">
+        No matches.
+    </h1>
+
+{% endif %}

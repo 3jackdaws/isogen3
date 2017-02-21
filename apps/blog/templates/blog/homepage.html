@@ -1,0 +1,22 @@
+{% include "components/head.html" %}
+
+{% include "components/navigation.html" %}
+
+{% include "components/modals/alert.html" %}
+
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Blog
+            </h1>
+            <h2 class="subtitle">
+                Recent Posts
+            </h2>
+        </div>
+    </div>
+</section>
+<div id="posts-container" class="container" style="padding-top: 30px;">
+    {% include 'blog/recent.html' %}
+</div>
+{% include 'components/footer.html' %}

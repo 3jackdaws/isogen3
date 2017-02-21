@@ -55,6 +55,11 @@ pre{
     to{transform: scale(0.95)}
 }
 
+@keyframes center-expand {
+    from{transform: scale(1)}
+    to{transform: scale(1.05)}
+}
+
 .context-menu{
     position: absolute;
     box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
@@ -171,4 +176,15 @@ pre{
     border-color: #dd5555;
 }
 
+.hover-expand{
+    transform: scale(1);
+    transition-property: transform;
+    transition-duration: 0.2s;
+}
+
+.hover-expand:hover{
+    transform: scale(1.05);
+}
+
+.
 

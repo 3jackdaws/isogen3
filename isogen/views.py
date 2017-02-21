@@ -26,6 +26,9 @@ def index(request):
     context = {'projects': projects, "title": "Home - ISOGEN", "login_form":get_nav_form(request), "user":user}
     return render(request, 'projects.html', context)
 
+def get_user(request):
+    return request.user if request.user.is_authenticated() else None
+
 def directory(request, search=None):
     user = None
     if request.user.is_authenticated():

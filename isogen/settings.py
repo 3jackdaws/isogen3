@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'isogen',
+    'apps.blog',
     'apps.memes',
     'apps.shinobu',
     'django.contrib.admin',

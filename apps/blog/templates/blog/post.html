@@ -1,0 +1,19 @@
+{% include "components/head.html" %}
+
+{% include "components/navigation.html" %}
+
+{% include "components/modals/alert.html" %}
+
+<div id="posts-container" class="container" style="padding-top: 30px; min-height: 90%;">
+    <div class="box" style="min-height: 80%;">
+        <div class="content">
+            <h1 class="title">{{ post.title }}</h1>
+            <h2 class="subtitle">{{ post.subtitle }}</h2>
+            <article>
+                {{ post.body }}
+            </article>
+        </div>
+    </div>
+    {% include 'blog/blog_footer.html' %}
+</div>
+{% include 'components/footer.html' %}

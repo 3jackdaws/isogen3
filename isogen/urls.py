@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^files/?', views.files_available),
     url(r'^get/?([a-zA-Z0-9-_]+)?', views.get),
     url(r'^put/', views.accept_file),
+    url(r'^blog/', include("apps.blog.urls")),
 
     url(r'^members/?([a-zA-Z0-9]+)?', views.members),
     url(r'^me/', views.me),
