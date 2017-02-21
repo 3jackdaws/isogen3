@@ -57,3 +57,29 @@ function searchFor(){
     console.log(query);
     window.location = "/directory/" + query;
 }
+
+function getCookie(name){
+     var cookieValue = null;
+     if (document.cookie && document.cookie != '') {
+         var cookies = document.cookie.split(';');
+         for (var i = 0; i < cookies.length; i++) {
+             var cookie = cookies[i];
+             console.log(cookie);
+             if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                 break;
+             }
+         }
+     }
+     return cookieValue;
+}
+
+function close_modal(modal_name){
+    var modal = document.getElementById(modal_name);
+    modal.classList.remove("is-active");
+}
+
+function open_modal(modal_name){
+    var modal = document.getElementById(modal_name);
+    modal.classList.add("is-active");
+}

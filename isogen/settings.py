@@ -14,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'fake key'
+SECRET_KEY = 'pv_&#8cc9u=v_e-4piiscli#sb=^nro(5up2-d&^1s&ojg(=xl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'isogen.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'fake name',
-        'HOST': 'fake host',
-        'PORT': 'fake port',
-        'USER': 'fake user',
-        "PASSWORD": 'fake pass'
+        'NAME': 'isogen',
+        'HOST': 'enyo.isogen.net',
+        'PORT': '3306',
+        'USER': 'isogen',
+        "PASSWORD": 'Qvm-hrP-gH9-EHN'
     }
 }
 

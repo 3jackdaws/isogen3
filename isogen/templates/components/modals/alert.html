@@ -1,0 +1,18 @@
+<div id="alert-modal" class="modal">
+    <div class="modal-background" onclick="close_modal('alert-modal')"></div>
+    <div class="modal-content">
+        <div class="box" style="background-color: white;">
+            <div class="container" style="font-size: 16px">
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-close" onclick="close_modal('alert-modal')"></div>
+</div>
+<script>
+    function iso_alert(message){
+        var modalBody = document.getElementById("alert-modal").querySelector(".container");
+        modalBody.innerHTML = message;
+        open_modal("alert-modal");
+    }
+</script>

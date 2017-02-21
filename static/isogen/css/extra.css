@@ -145,4 +145,30 @@ pre{
     }
 }
 
+.filedrop{
+    border: 2px dashed lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    background-color: whitesmoke;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.filedrop:hover{
+    background-color: white;
+    color: #9f1aff;
+}
+
+.filedrop.success{
+    border-color: #55dd55;
+    background-color: rgba(85, 221, 85, 0.1);
+}
+
+.filedrop.failure{
+    border-color: #dd5555;
+}
+
 

@@ -7,7 +7,10 @@ urlpatterns = [
     url(r'^$', views.directory),
     url(r'^directory/?(.+)?', views.directory, name='directory'),
     url(r'^download/?', views.downloads, name='downloads'),
+    url(r'^files/?', views.files_available),
     url(r'^get/?([a-zA-Z0-9-_]+)?', views.get),
+    url(r'^put/', views.accept_file),
+
     url(r'^members/?([a-zA-Z0-9]+)?', views.members),
     url(r'^me/', views.me),
     url(r'^contact', views.error_ni),

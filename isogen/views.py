@@ -8,6 +8,8 @@ from django.contrib.auth import logout, login, authenticate
 import json
 from django.contrib.auth.models import User, Group
 from django.http.request import HttpRequest
+from django.core.files.uploadhandler import InMemoryUploadedFile
+from django.core.files import File as DjangoFile
 
 
 # Create your views here.
@@ -50,6 +52,14 @@ def downloads(request):
     user = None
     if request.user.is_authenticated():
         user = request.user
+    context = {"title": "Downloads - ISOGEN", "login_form":get_nav_form(request), "user":user}
+    return render(request, 'downloads.html', context)
+
+
+def files_available(request):
+    user = None
+    if request.user.is_authenticated():
+        user = request.user
     # files = File.objects.all()
     visible_files = []
     for file in File.objects.all():
@@ -62,9 +72,8 @@ def downloads(request):
                 print(e)
                 pass
 
-
-    context = {'files': visible_files, "title": "Downloads - ISOGEN", "login_form":get_nav_form(request), "user":user}
-    return render(request, 'downloads.html', context)
+    context = {'files': visible_files}
+    return render(request, 'components/available_files.html', context)
 
 
 def send_file(request, filename):
@@ -235,5 +244,35 @@ def get(request, fileid=None):
 
 
     # files = File.objects.all()
+
+
+def accept_file(request):
+    authenticated_user = None
+    if request.user.is_authenticated() and "uploadedFile" in request.FILES:
+        authenticated_user = request.user
+
+        file = request.FILES["uploadedFile"] #type: InMemoryUploadedFile
+
+        db_file = File()
+
+        db_file.file.save(
+            file.name,
+            DjangoFile(file)
+        )
+
+        response = {
+            "action": "file-upload",
+            "result": "success",
+            "name": file.name
+        }
+    else:
+        response = {
+            "action": "file-upload",
+            "result": "failure"
+        }
+
+    return json_response(request, response)
+
+
 
 

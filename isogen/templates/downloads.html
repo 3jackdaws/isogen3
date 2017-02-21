@@ -3,7 +3,9 @@
 
 {% include "components/navigation.html" %}
 
-<body>
+
+    {% include "components/modals/file_add_dialog.html" %}
+    {% include "components/modals/alert.html" %}
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
@@ -16,70 +18,34 @@
             </div>
         </div>
     </section>
-    <div class="container" style="padding-top: 30px;">
-        <div class="columns">
-            <div class="column is-4">
-                <div class="container">
-                    <nav class="panel" style="background-color: white">
-                        <p class="panel-heading">
-                            Files
-                        </p>
-                        {% for file in files %}
-                        <a class="panel-block tab-selector is-primary" onclick="activate(this); showTab(event, '{{ file.file.name }}')">
-                            <span class="panel-icon">
-                                <i class="fa fa-book"></i>
-                            </span>
-                            {{ file.file.name }}
-                        </a>
-                        {% endfor %}
-                    </nav>
-                </div>
-            </div>
+    <div id="files-container" class="container" style="padding-top: 30px;">
 
-            <div class="column" style="">
-                <div class="box is-fullwidth" >
-                    {% for file in files %}
-                    <div id="{{ file.file.name }}" class="tab" style="display: none; font-size: 16px;">
-                        <div class="columns">
-                            <div class="column">
-                                <strong>FILE NAME: </strong><span class="is-primary">{{file.file.name}}</span>
-                                <br>
-                                <strong>FILE SIZE: </strong><span class="is-primary">{{file.hr_size }}</span>
-                                <br>
-                                <strong>RESTRICTED TO: </strong>
-                                <span class="is-primary">
-                                {% for user in file.members_allowed.all %}
-                                <span class="tag is-primary is-outline">{{ user }}</span>
-                                {% endfor %}
-                                </span>
-                            </div>
-
-                            <div class="column is-narrow" >
-                                <a class="button is-primary is-outlined" href="/get/{{file.id}}" download>DOWNLOAD</a>
-                            </div>
-                        </div>
-                        <strong>DESCRIPTION:</strong>
-                        <div class="content">
-                            {{ file.description }}
-                        </div>
-                        <br>
-                        <strong>CONTENTS:</strong>
-                        {% if file.contents %}
-                        <pre class="" style="word-wrap: break-word; overflow: wrap;">{{file.contents}}</pre>
-                        {% else %}
-                        This file type cannot be displayed.
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                </div>
-
-            </div>
-        </div>
-    </div>
     </div>
     {% include 'components/footer.html' %}
-</body>
+
 <script>
+    window.addEventListener("load", populate_files);
+    console.log(document.cookie);
+
+    window.addEventListener("dragover",function(e){
+        e = e || event;
+        e.preventDefault();
+    },false);
+
+    window.addEventListener("drop",function(e){
+        e = e || event;
+        e.preventDefault();
+        console.log(getCookie("sessionid"));
+        if (Username.length == 0){
+{#            iso_alert("");#}
+            showTab(null, "UploadFile");
+            on_file_response_from_server({result:":^("});
+        }else{
+            onDropFile(e);
+        }
+
+    },false);
+
     function showTab(event, tabName){
         var tabs = document.getElementsByClassName('tab');
         for (var i = 0; i < tabs.length; i++) {
@@ -95,6 +61,106 @@
             selectors[i].classList.remove("active");
         }
         item.classList.add("active");
+    }
+
+    function onDropFile(event){
+        event.preventDefault();
+        event.stopPropagation();
+        console.log(event);
+        var files = event.target.files || event.dataTransfer.files;
+        showTab(null, "UploadFile");
+        sendFileToServer(files[0], on_file_response_from_server);
+    }
+
+    function sendFileToServer(file, on_receive_file){
+        setUploadBox("Uploading File", "loading", "filedrop");
+        var uploadURL = "/put/";
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function (event) {
+            if (xhr.readyState == 4){
+                console.log(xhr.responseText);
+                var result = JSON.parse(xhr.responseText);
+                if(on_receive_file) on_receive_file(result);
+            }
+        };
+        var formData = new FormData();
+
+        formData.append("uploadedFile", file);
+        xhr.open('post', uploadURL, true);
+
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        xhr.send(formData);
+    }
+
+
+    function populate_files(){
+        var spinner = '<div class="container is-flex" style="align-items: center; justify-content: center"><div class="loader" style="height: 100px; width: 100px"></div></div>';
+        var files_div = document.getElementById("files-container");
+        files_div.innerHTML = spinner;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function (event) {
+            if (xhr.readyState == 4){
+                files_div.innerHTML = xhr.responseText;
+                swap_file_icons();
+            }
+        };
+        xhr.open('get', "/files/", true);
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        xhr.send();
+    }
+
+    function getFileFromInput(){
+        var file = document.getElementById("fileInput").files[0];
+        sendFileToServer(file, on_file_response_from_server);
+    }
+
+    function on_file_response_from_server(file_response){
+        var classname = "filedrop ";
+        if ( file_response.result == "success"){
+            setUploadBox("File Upload Succeeded", "fa-check-circle-o", "success");
+            setTimeout(populate_files, 2000);
+        }else{
+            setUploadBox("File Upload Failed", "fa-frown-o", "failure");
+        }
+
+
+    }
+
+    function setUploadBox(text, icon_name, classname){
+        var upload_file_div = document.getElementById("filedrop");
+        var text_div = upload_file_div.querySelector(".filedrop-text");
+        var icon_div = upload_file_div.querySelector("i");
+        if(icon_name)
+            icon_div.className = "fa " + icon_name;
+        if(text)
+            text_div.innerHTML = text;
+        if(classname)
+            upload_file_div.className = "filedrop " + classname;
+    }
+
+    function get_extension(string){
+        return string.split(".").pop();
+    }
+
+    var ExtensionIconDict = {
+        pdf:"fa-file-pdf-o",
+        txt:"fa-file-text-o",
+        docx:"fa-file-word-o",
+        doc:"fa-file-word-o",
+        tar:"fa-file-archive-o"
+
+    };
+
+    function swap_file_icons(){
+        var icons = document.getElementsByClassName("fa-placeholder");
+        var len = icons.length;
+        while(icons.length > 0){
+            var icon = icons[icons.length-1];
+            icon.className = "fa " + ExtensionIconDict[get_extension(icon.getAttribute("filename"))];
+        }
+
+
+
     }
 </script>
 

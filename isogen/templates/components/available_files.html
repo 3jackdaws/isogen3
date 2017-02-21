@@ -1,0 +1,79 @@
+<div class="columns">
+    <div class="column is-4">
+        <div class="container">
+            <nav class="panel" style="background-color: white">
+                <p class="panel-heading">
+                    Files
+                    <a class="button is-primary is-outlined" onclick="activate(this); showTab(event, 'UploadFile')" style="float: right">
+                        <span class="icon is-small">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                        <span>Add</span>
+                    </a>
+
+                </p>
+
+                {% for file in files %}
+                <a class="panel-block tab-selector is-primary" onclick="activate(this); showTab(event, '{{ file.file.name }}')">
+                    <span class="panel-icon">
+                        <i class="fa fa-placeholder" filename='{{ file.file.name }}'></i>
+                    </span>
+                    {{ file.file.name }}
+                </a>
+                {% endfor %}
+            </nav>
+        </div>
+    </div>
+
+    <div class="column" style="">
+        <div class="box is-fullwidth" >
+            <div id="UploadFile" class="tab is-flex" style="display: none; font-size: 16px; flex-flow: row wrap;" ondrop="onDropFile(event)" ondragover = "onDragOver(event)">
+
+                <div id="filedrop" class="filedrop" style="padding: 20px;" onclick="document.getElementById('fileInput').click();">
+                    <div>
+                        <input id="fileInput" name='fileInput' type="file" style="visibility:hidden" onchange="getFileFromInput()"/>
+                        <i class="fa fa-arrow-circle-o-up" style="font-size: 3em; display: block"></i>
+                        <br>
+                        <div class='filedrop-text' style="text-align: center">Add File</div>
+                    </div>
+
+
+                </div>
+            </div>
+            {% for file in files %}
+            <div id="{{ file.file.name }}" class="tab" style="display: none; font-size: 16px;">
+                <div class="columns">
+                    <div class="column">
+                        <strong>FILE NAME: </strong><span class="is-primary">{{file.file.name}}</span>
+                        <br>
+                        <strong>FILE SIZE: </strong><span class="is-primary">{{file.hr_size }}</span>
+                        <br>
+                        <strong>RESTRICTED TO: </strong>
+                        <span class="is-primary">
+                        {% for user in file.members_allowed.all %}
+                        <span class="tag is-primary is-outline">{{ user }}</span>
+                        {% endfor %}
+                        </span>
+                    </div>
+
+                    <div class="column is-narrow" >
+                        <a class="button is-primary is-outlined" href="/get/{{file.id}}" download>DOWNLOAD</a>
+                    </div>
+                </div>
+                <strong>DESCRIPTION:</strong>
+                <div class="content">
+                    {{ file.description }}
+                </div>
+                <br>
+                <strong>CONTENTS:</strong>
+                {% if file.contents %}
+                <pre class="" style="word-wrap: break-word; overflow: wrap;">{{file.contents}}</pre>
+                {% else %}
+                This file type cannot be displayed.
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>

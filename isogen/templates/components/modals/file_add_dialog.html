@@ -1,0 +1,34 @@
+<div id="file_add_modal" class="modal">
+    <div class="modal-background" onclick="close_modal('file_add_modal')"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">{{ login_form.action }}</p>
+            <button class="delete" onclick="close_modal('file_add_modal')"></button>
+        </header>
+        <section class="modal-card-body">
+            <form id='add-file-form' onsubmit="submitFile()">
+
+                <input class="input" name="name" placeholder="File Name" value=""/>
+                <input class="input" name="description" placeholder="Description" value=""/>
+                <select title="Restricted to" class="input" name="name" multiple>
+                    {% for user in users %}
+                    <option>{{ user }}</option>
+                    {% endfor %}
+                </select>
+
+            </form>
+        </section>
+        <footer class="modal-card-foot">
+            <a class="button is-primary" onclick="submitFile()">Add File</a>
+            <a class="button" onclick="close_modal('file_add_modal')">Cancel</a>
+        </footer>
+    </div>
+</div>
+
+<script>
+
+    function submitFile(){
+        sendFileToServer()
+    }
+
+</script>
