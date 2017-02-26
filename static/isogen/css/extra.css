@@ -199,6 +199,8 @@ pre{
 #posts-container{
     position: relative;
     margin-top: 500px;
+    width: 100%;
+    overflow: hidden;
 }
 
 article .content{
@@ -209,9 +211,12 @@ article .content{
     position: relative;
 }
 
+
 article .content *{
     position: relative;
 }
+
+
 
 article .content h1, h2{
     font-family: "Bitter", serif;
