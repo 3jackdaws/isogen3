@@ -17,7 +17,7 @@
             </div>
             <hr>
             <div class="post-body">
-                {{ post.body | safe }}
+                {{ post.get_body_html | safe }}
             </div>
             <hr>
         </div>

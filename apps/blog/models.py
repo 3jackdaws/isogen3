@@ -2,6 +2,7 @@ from django.db.models import Model
 from django.db import models
 import isogen.settings
 from isogen.models import IsogenMember, Tag
+import misaka
 
 
 class BlogPost(Model):
@@ -19,5 +20,8 @@ class BlogPost(Model):
 
     def get_tags_str(self):
         return " ".join([str(x) for x in self.post_tags.all()])
+
+    def get_body_html(self):
+        return misaka.html(self.body)
 
 

@@ -82,7 +82,7 @@ DATABASES = {
         'HOST': 'enyo.isogen.net',
         'PORT': '3306',
         'USER': 'isogen',
-        "PASSWORD": 'Qvm-hrP-gH9-EHN'
+        "PASSWORD": 'bf4-wpd-khE-ynk'
     }
 }
 

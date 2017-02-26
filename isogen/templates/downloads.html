@@ -24,7 +24,7 @@
     {% include 'components/footer.html' %}
 
 <script>
-
+    window.addEventListener("load", populate_files);
     window.addEventListener("dragover",function(e){
         e = e || event;
         e.preventDefault();
@@ -35,7 +35,6 @@
         e.preventDefault();
         console.log(getCookie("sessionid"));
         if (Username.length == 0){
-{#            iso_alert("");#}
             showTab(null, "UploadFile");
             on_file_response_from_server({result:":^("});
         }else{
