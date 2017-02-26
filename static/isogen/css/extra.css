@@ -211,6 +211,9 @@ article .content{
 
 article .content *{
     position: relative;
+}
+
+article .content h1, h2{
     font-family: "Bitter", serif;
 }
 
@@ -234,7 +237,7 @@ article .post-body{
     font-size: 17px;
     font-family: 'Verdana', sans-serif;
     line-height: 30px;
-    font-weight: lighter;;
+    font-weight: lighter;
 }
 
 #featured-post{
@@ -247,6 +250,7 @@ article .post-body{
 }
 
 .featured-card{
+    display: block;
     margin: 0 auto;
     position: absolute;
     bottom: 0;
@@ -257,5 +261,7 @@ article .post-body{
     background-color: white;
     padding: 30px;
     max-width: 800px;
+    cursor: pointer;
+
 }
 
