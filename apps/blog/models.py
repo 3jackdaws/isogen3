@@ -3,6 +3,9 @@ from django.db import models
 import isogen.settings
 from isogen.models import IsogenMember, Tag
 import misaka
+from pygments import highlight
+from pygments.formatters import ClassNotFound, HtmlFormatter
+from pygments.lexers import get_lexer_by_name
 
 
 class BlogPost(Model):
@@ -22,6 +25,21 @@ class BlogPost(Model):
         return " ".join([str(x) for x in self.post_tags.all()])
 
     def get_body_html(self):
-        return misaka.html(self.body)
+        renderer = HighlighterRenderer()
+        md = misaka.Markdown(renderer, extensions=('fenced-code',))
+        return md(self.body)
 
 
+class HighlighterRenderer(misaka.HtmlRenderer):
+    def blockcode(self, text, lang):
+        try:
+            lexer = get_lexer_by_name(lang, stripall=True)
+        except ClassNotFound:
+            lexer = None
+
+        if lexer:
+            formatter = HtmlFormatter()
+            return highlight(text, lexer, formatter)
+        # default
+        return '\n<pre><code>{}</code></pre>\n'.format(
+                            text.strip())

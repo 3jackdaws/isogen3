@@ -72,10 +72,6 @@ function highlightText(){
         var sField = document.getElementById("s");
         sField.className += " is-disabled";
         sField.parentNode.querySelector("a").className += " is-disabled";
-        // sField.style.textDecoration = 'line-through';
-        // sField.style.color = '#aaa';
-        // sField.value = sField.getAttribute("placeholder");
-        // sField.readOnly = true;
     }
 
 }

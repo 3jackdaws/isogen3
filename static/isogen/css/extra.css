@@ -216,6 +216,15 @@ article .content *{
     position: relative;
 }
 
+article .content pre, code{
+    font-size: 17px;
+}
+
+pre{
+    padding: 15px;
+}
+
+
 
 
 article .content h1, h2{

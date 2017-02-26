@@ -1,0 +1,28 @@
+<div id="header-image" style="background-image: url('/media/{{ post.header_picture.url }}'); background-size: cover"></div>
+<div id="posts-container" class="container-fluid" style="margin-bottom: 0; padding-bottom: 0;">
+    <article style="margin-bottom: 0;">
+        <div class="content">
+            <h1 class="title is-1">{{ post.title }}</h1>
+            <h2 class="subtitle is-5 is-bold">{{ post.subtitle.upper }}</h2>
+            <strong><a>{{ post.author.all.0.fullname }}</a></strong> <strong>&middot;</strong> <small>{{ post.datetime_posted }}</small>
+            <div style="margin-top: 12px;">
+                {% for tag in post.post_tags.all %}
+                <span class="tag is-primary">{{ tag }}</span>
+                {% endfor %}
+            </div>
+            <hr>
+            <div class="post-body">
+                {{ post.get_body_html | safe }}
+            </div>
+            <hr>
+        </div>
+    </article>
+    <div class="container-fluid" style="background-color: whitesmoke;">
+        <div class="container" style="padding: 20px 0 50px 0; ">
+            <h1 class="title" style="width: 100%; text-align: center;">Other Interesting Posts</h1>
+            {% include 'blog/blog_footer.html' %}
+        </div>
+    </div>
+
+
+</div>
