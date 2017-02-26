@@ -26,6 +26,8 @@ class IsogenMember(Model):
     def __str__(self):
         return self.user.first_name
 
+    def fullname(self):
+        return self.user.first_name + " " + self.user.last_name
 
 
 class Tag(Model):

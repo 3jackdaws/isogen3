@@ -3,17 +3,31 @@
 {% include "components/navigation.html" %}
 
 {% include "components/modals/alert.html" %}
-
-<div id="posts-container" class="container" style="padding-top: 30px; min-height: 90%;">
-    <div class="box" style="min-height: 80%;">
+<div id="header-image" style="background-image: url('/media/{{ post.header_picture.url }}'); background-size: cover"></div>
+<div id="posts-container" class="container-fluid">
+    <article>
         <div class="content">
-            <h1 class="title">{{ post.title }}</h1>
-            <h2 class="subtitle">{{ post.subtitle }}</h2>
-            <article>
+            <h1 class="title is-1">{{ post.title }}</h1>
+            <h2 class="subtitle is-5 is-bold">{{ post.subtitle.upper }}</h2>
+            <strong><a>{{ post.author.all.0.fullname }}</a></strong> <strong>&middot;</strong> <small>{{ post.datetime_posted }}</small>
+            <div style="margin-top: 12px;">
+                {% for tag in post.post_tags.all %}
+                <span class="tag is-primary">{{ tag }}</span>
+                {% endfor %}
+            </div>
+            <hr>
+            <div class="post-body">
                 {{ post.body }}
-            </article>
+            </div>
+            <hr>
         </div>
+
+
+    </article>
+    <div class="container" style="margin-top: 30px;">
+        <h1 class="title" style="width: 100%; text-align: center;">Other Interesting Posts</h1>
+        {% include 'blog/blog_footer.html' %}
     </div>
-    {% include 'blog/blog_footer.html' %}
+
 </div>
 {% include 'components/footer.html' %}

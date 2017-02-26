@@ -19,13 +19,11 @@
         </div>
     </section>
     <div id="files-container" class="container" style="padding-top: 30px;">
-
+        {% include 'components/available_files.html' %}
     </div>
     {% include 'components/footer.html' %}
 
 <script>
-    window.addEventListener("load", populate_files);
-    console.log(document.cookie);
 
     window.addEventListener("dragover",function(e){
         e = e || event;

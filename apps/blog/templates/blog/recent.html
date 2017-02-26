@@ -5,14 +5,16 @@
     <div style="background-image: url('/media/{{ post.header_picture.url }}'); height: 200px; background-size: cover; background-position: center center">
 
     </div>
-    <div class="card-content" style="text-align: center;">
+    <div class="card-content post" style="text-align: center;">
 
         <h1 class="title searchable">{{ post.title }}</h1>
 
-        <p class="content searchable">
+        <p class="content searchable" style="height: 40px;">
             {{ post.subtitle }}
         </p>
-        {{ post.get_tags_str }}
+        {{ post.author.all.0.fullname }} - {{ post.datetime_posted.date }}
+        <hr>
+        <small class="searchable">{{ post.get_tags_str }}</small>
     </div>
 </div>
 {% endfor %}

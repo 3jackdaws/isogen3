@@ -4,19 +4,26 @@
 
 {% include "components/modals/alert.html" %}
 
-<section class="hero is-primary">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Blog
-            </h1>
-            <h2 class="subtitle">
-                Recent Posts
-            </h2>
+<div id="featured-post" style="background-image: url('/media/{{ most_recent.header_picture.url }}'); ">
+
+    <div class="featured-card post" style="">
+        <h1 class="title">{{ most_recent.title }}</h1>
+        <h3 class="subtitle">{{ most_recent.subtitle.upper }}</h3>
+        <strong><a>{{ most_recent.author.all.0.fullname }}</a></strong> <strong>&middot;</strong> <small>{{ most_recent.datetime_posted }}</small>
+        <hr>
+        <div style="margin-top: 12px;">
+            {% for tag in most_recent.post_tags.all %}
+            <span class="tag is-primary">{{ tag }}</span>
+            {% endfor %}
         </div>
+        <span style="position: absolute; right: 4px; top: 4px; color: lightgrey;">FEATURED</span>
     </div>
-</section>
-<div id="posts-container" class="container" style="padding-top: 30px;">
+</div>
+<div id="main-content" class="container is-flex" style="padding-top: 30px;justify-content: space-around; flex-flow: row wrap;">
     {% include 'blog/recent.html' %}
 </div>
 {% include 'components/footer.html' %}
+<script>
+
+
+</script>

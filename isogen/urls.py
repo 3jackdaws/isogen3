@@ -1,11 +1,11 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from . import views
+from isogen import views
 
 urlpatterns = [
-    url(r'^$', views.directory),
-    url(r'^directory/?(.+)?', views.directory, name='directory'),
+    url(r'^(find/.+)?$', views.directory),
+    url(r'^directory/(find/.+)?', views.directory, name='directory'),
     url(r'^download/?', views.downloads, name='downloads'),
     url(r'^files/?', views.files_available),
     url(r'^get/?([a-zA-Z0-9-_]+)?', views.get),
@@ -20,8 +20,6 @@ urlpatterns = [
     url(r'^login/?', views.user_login, name='login'),
     url(r'^logout/?', views.user_logout, name='logout'),
     url(r'^error/([0-9]+)', views.error),
-
-
 
     url(r'^meme/', include("apps.memes.urls")),
     url(r'^shinobu/', include("apps.shinobu.urls")),

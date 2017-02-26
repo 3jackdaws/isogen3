@@ -22,7 +22,7 @@
             </div>
         </div>
     </section>
-    <div class="container is-flex" id='cards' style="justify-content: space-around; flex-flow: row wrap; padding-top: 10px">
+    <div class="container is-flex" id='main-content' style="justify-content: space-around; flex-flow: row wrap; padding-top: 10px">
         {% if sites %}
         {% for site in sites %}
 
@@ -51,23 +51,5 @@
     </div>
 
     {% include 'components/footer.html' %}
-<script>
-    {% if search %}
-    var searchTerm = '{{ search }}';
-    {% else %}
-    var searchTerm = '';
-    {% endif %}
-    if(searchTerm.length > 0){
-        window.addEventListener("load", function(){
-            console.log(searchTerm);
-            var text = document.getElementById('cards').querySelectorAll(".searchable");
-            var len = text.length;
-            console.log(len);
-            for(var i = 0; i<len; i++){
-                text[i].innerHTML = text[i].innerHTML.replace(new RegExp("(" + searchTerm + ")", "i") , "<a>$1</a>");
-            }
-            
-        });
-    }
-</script>
+
 

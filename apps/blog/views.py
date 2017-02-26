@@ -4,14 +4,26 @@ from apps.blog.models import BlogPost
 import pymysql
 from isogen.settings import DATABASES, BASE_DIR
 
-def blog(request):
+def blog(request, search=None):
     user = get_user(request)
-    posts = BlogPost.objects.order_by("datetime_posted")
+    posts = []
+    most_recent = None
+    if search:
+        search = search.rsplit("/")[1].lower()
+        for post in BlogPost.objects.order_by("datetime_posted"):
+            if search in post.title.lower() or search in post.subtitle.lower() or search in post.get_tags_str().lower():
+                posts.append(post)
+    else:
+        posts = list(BlogPost.objects.order_by("datetime_posted"))
+        most_recent = posts.pop(0)
+
     context = {
         "title": "Recent Posts - ISOGEN Blog",
         "login_form": get_nav_form(request),
         "user": user,
-        "posts":posts
+        "posts":posts,
+        "most_recent":most_recent,
+        "search": search
     }
     return render(request, 'blog/homepage.html', context)
 

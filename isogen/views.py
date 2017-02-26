@@ -34,6 +34,7 @@ def directory(request, search=None):
     if request.user.is_authenticated():
         user = request.user
     if search is not None:
+        search = search.rsplit("/")[1]
         sites = []
         for site in DirectoryEntry.objects.order_by("priority"):
             if search.lower() in site.title.lower() or search.lower() in site.description.lower():
@@ -275,7 +276,6 @@ def accept_file(request):
         }
 
     return json_response(request, response)
-
 
 
 

@@ -186,5 +186,76 @@ pre{
     transform: scale(1.05);
 }
 
-.
+
+#header-image{
+
+    width: 100%;
+    height: 600px;
+    position: fixed;
+    top: 0;
+    background-position: center center;
+}
+
+#posts-container{
+    position: relative;
+    margin-top: 500px;
+}
+
+article .content{
+    background-color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    position: relative;
+}
+
+article .content *{
+    position: relative;
+    font-family: "Bitter", serif;
+}
+
+.post .title{
+    font-family: "Bitter", serif;
+}
+
+article .content::before{
+    display: block;
+    position: absolute;
+    margin: 0 auto;
+    top: 0;
+    left: -100vw;
+    width: 1000vw;
+    height: 100%;
+    background-color: white;
+    content: '';
+}
+
+article .post-body{
+    font-size: 17px;
+    font-family: 'Verdana', sans-serif;
+    line-height: 30px;
+    font-weight: lighter;;
+}
+
+#featured-post{
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    margin-bottom: 100px;
+}
+
+.featured-card{
+    margin: 0 auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: -100px;
+    border: 1px solid lightgray;
+    background-color: white;
+    padding: 30px;
+    max-width: 800px;
+}
 

@@ -13,8 +13,11 @@ class BlogPost(Model):
     body = models.TextField()
     header_picture = models.ImageField(blank=True)
     post_tags = models.ManyToManyField(Tag, blank=True)
+    featured = models.BooleanField(default=False)
     def __str__(self):
         return self.title
 
     def get_tags_str(self):
-        return ", ".join(self.post_tags.all())
+        return " ".join([str(x) for x in self.post_tags.all()])
+
+

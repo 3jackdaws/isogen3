@@ -1,6 +1,9 @@
 /**
  * Created by ian on 12/29/16.
  */
+
+window.addEventListener("load", highlightText);
+
 function notification(text, closeable, classname){
     var notification = document.createElement("div");
     notification.className = "notification " + classname;
@@ -54,8 +57,27 @@ function login(event, form){
 
 function searchFor(){
     var query = document.getElementById("s").value;
-    console.log(query);
-    window.location = "/directory/" + query;
+    var baseurl = window.location.pathname.split("find")[0];
+    window.location = baseurl + "find/" + query;
+}
+
+function highlightText(){
+    if (typeof Search !== 'undefined'){
+        var text = document.getElementById('main-content').querySelectorAll(".searchable");
+        var len = text.length;
+        for(var i = 0; i<len; i++){
+            text[i].innerHTML = text[i].innerHTML.replace(new RegExp("(" + Search + ")", "i") , "<a>$1</a>");
+        }
+    }else{
+        var sField = document.getElementById("s");
+        sField.className += " is-disabled";
+        sField.parentNode.querySelector("a").className += " is-disabled";
+        // sField.style.textDecoration = 'line-through';
+        // sField.style.color = '#aaa';
+        // sField.value = sField.getAttribute("placeholder");
+        // sField.readOnly = true;
+    }
+
 }
 
 function getCookie(name){
