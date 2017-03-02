@@ -1,4 +1,4 @@
-    console.info("Loaded Stcikynote.js");
+    console.info("Loaded Stickynote.js");
     var NoteContainer = null;
     var StickyNotes = {};
     var HeldNote = null;
@@ -14,7 +14,7 @@
         NoteSocket = new WebSocket(url);
         NoteSocket.onmessage = function (evt) {
             var message = JSON.parse(evt.data);
-            console.info(message);
+            // console.info(message);
             switch(message.action){
                 case "alter":
                 {
@@ -36,7 +36,7 @@
 
                 case "delete":
                 {
-                    console.log("del");
+                    // console.log("del");
                     if(message.id in StickyNotes){
                         var note = StickyNotes[message.id];
                         note.remove();
@@ -46,7 +46,7 @@
 
                 case "notify":
                 {
-                    console.log("notify");
+                    // console.log("notify");
                     Notification.Toast.message(message.text);
                 }
             }
@@ -72,10 +72,7 @@
     }
 
     window.addEventListener("load", function(){
-
-        zRatio = screen.width/1200;
-        if(!(zRatio < 1)) zRatio=1;
-        console.log(zRatio);
+        // console.log(zRatio);
 
         NoteContainer = document.getElementById("note-container");
 
@@ -93,7 +90,7 @@
             var x = ContextMenu.current.style.left;
             var y = ContextMenu.current.style.top;
             var note = StickyNote.createNew(x, y, GlobalZIndex++);
-        }),
+        })
 
     ];
 
@@ -107,8 +104,8 @@
     document.body.addEventListener("mousemove", function(event){
         if(HeldNote){
             HeldNote.hasChanged = true;
-            var x = (event.pageX/zRatio + HeldNote.offsetX);
-            var y = (event.pageY/zRatio + HeldNote.offsetY);
+            var x = (event.clientX + HeldNote.offsetX);
+            var y = (event.clientY + HeldNote.offsetY);
             HeldNote.setPosition(x, y);
         }
     });
@@ -117,14 +114,16 @@
         if(HeldNote){
             HeldNote.save();
         }
-    }, 50);
+    }, 100);
 
     var StickyNote = function(content, x, y, z, id, style){
 
         this.node = document.createElement("textarea");
         this.node.className = "stickynote";
         this.id = id;
+        this.oldContent = null;
         this.hasChanged = false;
+        this.textChanged = false;
         this.setContent(content);
         this.node.style = style;
         this.setPosition(x,y,z);
@@ -133,18 +132,16 @@
         this.node.onclick = function (event) {
             event.preventDefault();
         };
-        var _this = this;
-
         this.node.onmousedown = function(event){
             HeldNote = this.object;
-            HeldNote.offsetX = -(event.offsetX/zRatio);
-            HeldNote.offsetY = -(event.offsetY/zRatio);
+            HeldNote.offsetX = -(event.offsetX);
+            HeldNote.offsetY = -(event.offsetY);
             this.style.zIndex = ++GlobalZIndex;
         };
 
         this.node.onblur = function(){
             this.classList.remove("editable");
-            this.object.save();
+            this.object.putDown();
             this.readOnly = true;
         };
 
@@ -154,7 +151,7 @@
             this.readOnly = false;
             this.select();
             this.focus();
-            this.object.hasChanged = true;
+            this.object.oldContent = this.value;
         };
 
         var obj = this;
@@ -179,12 +176,15 @@
     };
 
     StickyNote.prototype.putDown = function(){
+        if(this.oldContent != this.node.value)
+            this.textChanged = this.hasChanged = true;
         this.save();
         HeldNote = null;
     };
     
     StickyNote.prototype.setContent = function (content) {
         this.node.innerHTML = content;
+        this.textChanged = true;
     };
 
     StickyNote.prototype.translate = function (x,y) {
@@ -193,11 +193,8 @@
 
         var dx = x-currentX;
         var dy = y-currentY;
-        var tform = "translate(" + dx + "px," + dy + "px)";
-        this.node.style.transform = tform;
-        // console.log(tform, x, dx, y, dy);
-
-    }
+        this.node.style.transform = "translate(" + dx + "px," + dy + "px)";
+    };
 
     StickyNote.createNew = function (x,y,z) {
         NoteSocket.send(JSON.stringify(
@@ -215,10 +212,13 @@
     StickyNote.prototype.save = function () {
         if(this.hasChanged){
             this.hasChanged = false;
+            var content = 0;
+            if(this.textChanged) content = this.node.value;
+            this.textChanged = false;
             var message = {
                 "action":"alter",
                 "id":this.id,
-                "content":this.node.value,
+                "content":content,
                 "style":this.node.className,
                 "x":this.node.style.left.slice(0,-2),
                 "y":this.node.style.top.slice(0,-2),
