@@ -9,30 +9,20 @@
     var zRatio;
     var GlobalZIndex = 0;
 
-    window.addEventListener("load", function(){
-
-        zRatio = screen.width/1200;
-        if(!(zRatio < 1)) zRatio=1;
-        console.log(zRatio);
-
-        NoteContainer = document.getElementById("note-container");
-
-
-        NoteContainer.addEventListener("contextmenu", function(event){
-            ContextMenu.create(event, ContextMenuNodeLists['note-container']);
-        });
-
-        NoteSocket = new WebSocket("ws:isogen.net:8000");
+    function ConnectWebsocket(){
+        var url = "wss://isogen.net:8000/ws/stickynotes/";
+        NoteSocket = new WebSocket(url);
         NoteSocket.onmessage = function (evt) {
             var message = JSON.parse(evt.data);
-            // console.info(message);
+            console.info(message);
             switch(message.action){
                 case "alter":
                 {
                     if(message.id in StickyNotes){
                         if (StickyNotes[message.id] != HeldNote){
                             StickyNotes[message.id].translate(message.x, message.y);
-                            StickyNotes[message.id].setContent(message.content);
+                            if(message.content !== 0)
+                                StickyNotes[message.id].setContent(message.content);
                         }
 
 
@@ -63,6 +53,7 @@
         }
 
         NoteSocket.onopen = function(){
+            Notification.Toast.message("Connected", 1000);
             NoteSocket.send(JSON.stringify(
                 {
                     "action":"fetch"
@@ -73,6 +64,27 @@
         NoteSocket.onerror = function(err){
             console.error(err);
         };
+
+        NoteSocket.onclose = function () {
+            Notification.Toast.message("Reconnecting...", 5000);
+            setTimeout(ConnectWebsocket, 5000);
+        };
+    }
+
+    window.addEventListener("load", function(){
+
+        zRatio = screen.width/1200;
+        if(!(zRatio < 1)) zRatio=1;
+        console.log(zRatio);
+
+        NoteContainer = document.getElementById("note-container");
+
+
+        NoteContainer.addEventListener("contextmenu", function(event){
+            ContextMenu.create(event, ContextMenuNodeLists['note-container']);
+        });
+
+        ConnectWebsocket();
     });
 
     ContextMenuNodeLists['note-container'] = [

@@ -62,7 +62,7 @@ function searchFor(){
 }
 
 function highlightText(){
-    if (typeof Search !== 'undefined'){
+    if (typeof Search !== 'undefined' && Search){
         var text = document.getElementById('main-content').querySelectorAll(".searchable");
         var len = text.length;
         for(var i = 0; i<len; i++){
