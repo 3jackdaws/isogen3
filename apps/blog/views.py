@@ -10,12 +10,13 @@ def blog(request, search=None):
     most_recent = None
     if search:
         search = search.rsplit("/")[1].lower()
-        for post in BlogPost.objects.order_by("datetime_posted"):
+        for post in BlogPost.objects.order_by("-datetime_posted"):
             if search in post.title.lower() or search in post.subtitle.lower() or search in post.get_tags_str().lower():
                 posts.append(post)
     else:
-        posts = list(BlogPost.objects.order_by("datetime_posted"))
-        most_recent = posts.pop(0)
+        posts = BlogPost.objects.order_by("-datetime_posted")
+        most_recent = posts[0]
+        posts = posts[1:]
 
     context = {
         "title": "Recent Posts - ISOGEN Blog",

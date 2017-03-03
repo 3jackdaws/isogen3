@@ -15,6 +15,7 @@ body{
 
 .card .content{
     height: 80px;
+    overflow: scroll;
 }
 
 .directory:hover{
