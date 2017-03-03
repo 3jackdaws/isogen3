@@ -179,6 +179,7 @@
         if(this.oldContent != this.node.value)
             this.textChanged = this.hasChanged = true;
         this.save();
+        this.node.onselectstart = "return false";
         HeldNote = null;
     };
     

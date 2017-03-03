@@ -30,7 +30,10 @@ def blog(request, search=None):
 def blog_post(request, id):
     user = get_user(request)
     post = BlogPost.objects.get(id=id)
-    footer_posts = BlogPost.objects.order_by("datetime_posted")[:3]
+    footer_posts = list(post.related_posts.all()[:3])
+    num_req = 3 - len(footer_posts)
+    if num_req > 0:
+        footer_posts.extend(list(BlogPost.objects.order_by("datetime_posted")[:num_req]))
     context = {
         "title": "{} - ISOGEN Blog".format(post.title),
         "login_form": get_nav_form(request),

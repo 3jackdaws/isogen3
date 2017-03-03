@@ -111,6 +111,7 @@ pre{
     color: #333;
     outline: none;
     cursor: pointer;
+    user-select: none;
 }
 
 .stickynote:focus{

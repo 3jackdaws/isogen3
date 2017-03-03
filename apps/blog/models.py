@@ -9,15 +9,18 @@ from pygments.lexers import get_lexer_by_name
 
 
 class BlogPost(Model):
+    header_picture = models.ImageField(blank=True)
+    title = models.CharField(max_length=140)
+    subtitle = models.CharField(max_length=400)
     author = models.ManyToManyField(IsogenMember)
     datetime_posted = models.DateTimeField()
     datetime_updated = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=140)
-    subtitle = models.CharField(max_length=400)
     body = models.TextField()
-    header_picture = models.ImageField(blank=True)
+    related_posts = models.ManyToManyField("BlogPost", blank=True)
     post_tags = models.ManyToManyField(Tag, blank=True)
     featured = models.BooleanField(default=False)
+
+
     def __str__(self):
         return self.title
 
