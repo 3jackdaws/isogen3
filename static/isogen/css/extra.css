@@ -15,7 +15,9 @@ body{
 
 .card .content{
     height: 80px;
-    overflow: scroll;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .directory:hover{
@@ -68,7 +70,9 @@ pre{
     min-width: 150px;
     padding-top: 5px;
     padding-bottom: 5px;
-    border-radius: 4px;
+    border-radius: 1px;
+    outline: 1px solid #9f1aff;
+
     z-index: 9999999999999999;
 }
 
@@ -81,7 +85,7 @@ pre{
 }
 
 .context-menu a:hover{
-    background-color: #4286f4;
+    background-color: #9f1aff;
     color: white;
     cursor: pointer;
 }
@@ -278,5 +282,14 @@ article .post-body{
     max-width: 800px;
     cursor: pointer;
 
+}
+
+textarea.card{
+    resize: none;
+    cursor: pointer;
+    text-align: center;
+    padding: 20px;
+    width: auto;
+    margin: 20px;
 }
 

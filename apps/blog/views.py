@@ -34,7 +34,7 @@ def blog_post(request, id):
     footer_posts = list(post.related_posts.all()[:3])
     num_req = 3 - len(footer_posts)
     if num_req > 0:
-        footer_posts.extend(list(BlogPost.objects.order_by("datetime_posted")[:num_req]))
+        footer_posts.extend(list(BlogPost.objects.order_by("-datetime_posted")[:num_req]))
     context = {
         "title": "{} - ISOGEN Blog".format(post.title),
         "login_form": get_nav_form(request),

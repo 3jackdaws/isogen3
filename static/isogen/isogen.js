@@ -81,8 +81,8 @@ function getCookie(name){
      if (document.cookie && document.cookie != '') {
          var cookies = document.cookie.split(';');
          for (var i = 0; i < cookies.length; i++) {
-             var cookie = cookies[i];
-             console.log(cookie);
+             var cookie = cookies[i].trim();
+             console.log(cookie.substring(0, name.length + 1));
              if (cookie.substring(0, name.length + 1) == (name + '=')) {
                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                  break;
@@ -100,4 +100,11 @@ function close_modal(modal_name){
 function open_modal(modal_name){
     var modal = document.getElementById(modal_name);
     modal.classList.add("is-active");
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }

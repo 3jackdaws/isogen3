@@ -9,3 +9,7 @@ class Stickynote(Model):
     x = models.IntegerField()
     y = models.IntegerField()
     z = models.IntegerField()
+
+class ChatSpam(Model):
+    text = models.CharField(max_length=2000)
+

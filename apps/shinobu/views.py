@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-from isogen.views import get_nav_form
-from apps.shinobu.models import Stickynote
+from django.http import HttpRequest
+from isogen.views import get_nav_form, json_response
+from apps.shinobu.models import Stickynote, ChatSpam
 import pymysql
 from isogen.settings import DATABASES, BASE_DIR
 import sys
@@ -78,3 +79,30 @@ def protocredit(request):
     stickynotes = Stickynote.objects.all()
     context = {"title": "Protocredits", "login_form": get_nav_form(request), "user": user}
     return render(request, 'shinobu/protocredits.html', context)
+
+def chat_spam(request:HttpRequest, category=None):
+    favorites = request.COOKIES.get("favorites")
+    print(favorites)
+    cards = None
+    if favorites is not None:
+        pass
+    cards = ChatSpam.objects.all()
+    context = {
+        "title": "Chat spam",
+        "login_form": get_nav_form(request),
+        "user": request.user if request.user.is_authenticated() else None,
+        "chat_cards":cards
+    }
+    return render(request, 'shinobu/chat_spam.html', context)
+
+def chat_spam_add(request:HttpRequest):
+    text = request.POST.get("text")
+    if text:
+        ChatSpam.objects.create(text=text)
+        response_text = "success"
+    else:
+        response_text = "failure"
+    return json_response(request, {
+        "result":response_text
+    })
+

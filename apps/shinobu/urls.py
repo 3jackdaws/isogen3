@@ -6,6 +6,8 @@ urlpatterns = [
     url(r'protocredit', views.protocredit),
     url(r'reichlist', views.reichlist),
     url(r'notes', views.notes),
+    url(r'chatspam/new', views.chat_spam_add),
+    url(r'chatspam', views.chat_spam),
     url(r'procedure/([a-z0-9A-Z]+)/([a-zA-Z0-9/]+)?', views.procedures),
     url(r'kv/(.+)/([a-z0-9/-_]+)?', views.kvstore)
 ]

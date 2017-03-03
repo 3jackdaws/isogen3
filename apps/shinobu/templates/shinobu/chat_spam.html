@@ -1,0 +1,167 @@
+
+{% include "components/head.html" %}
+
+{% include "components/navigation.html" %}
+
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Memes lol
+                </h1>
+            </div>
+        </div>
+    </section>
+    <h1 class="title" style="text-align: center; color: lightgray; margin: 10px;">
+        FAVORITES
+    </h1>
+    <div class="container is-flex" id='faves' style="justify-content: space-around; flex-flow: row wrap; padding-top: 10px; border-bottom: 1px solid lightgray">
+
+    </div>
+    <div class="container is-flex" id='cards' style="justify-content: space-around; flex-flow: row wrap; padding-top: 10px">
+        {% if chat_cards %}
+            {% for card in chat_cards %}
+                <textarea readonly class="card" id="card{{ card.id }}">{{ card.text }}</textarea>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {% include 'components/footer.html' %}
+<script>
+    var Favorites = [];
+    var Hates = [];
+    window.addEventListener("load", function () {
+        var cards = document.getElementsByClassName("card");
+        for(var i = 0; i<cards.length; i++)
+        {
+            cards[i].addEventListener("click", copyToClipboard);
+            cards[i].addEventListener("contextmenu", popContextCard);
+        }
+
+        document.body.addEventListener("contextmenu", function (event) {
+            ContextMenu.create(event, createPageNodeList());
+        });
+
+        try{
+            Favorites = JSON.parse(getCookie("favorites"));
+        }catch (e){
+            Favorites = [];
+        }
+
+        try{
+            Hates = JSON.parse(getCookie("hates"));
+        }catch (e){
+            Hates = [];
+        }
+
+        if(!Hates) Hates = [];
+
+        if(Hates.length > 0){
+            for(i = 0; i<Hates.length; i++){
+                var card = document.getElementById("card" + Hates[i]);
+                card.parentNode.removeChild(card);
+            }
+        }
+
+        if(Favorites.length > 0){
+            var cDiv = document.getElementById("faves");
+
+            for(i = 0; i<Favorites.length; i++){
+                var dupe = document.getElementById("card" + Favorites[i]).cloneNode();
+                dupe.addEventListener("click", copyToClipboard);
+                dupe.addEventListener("contextmenu", popContextFave);
+                cDiv.appendChild(dupe);
+            }
+        }
+
+    });
+
+    function copyToClipboard(event){
+        var card = event.target;
+        var text = card.innerHTML;
+        card.select();
+        document.execCommand("copy");
+        card.blur();
+        Notification.Toast.message("Copied to clipboard");
+    }
+
+    function popContextCard(event){
+        var card = event.target;
+
+        ContextMenu.create(event, createCardNodeList(card));
+    }
+
+    function popContextFave(event){
+        var card = event.target;
+
+        ContextMenu.create(event, createFaveNodeList(card));
+    }
+
+    function createCardNodeList(cardElement){
+        var labelText = cardElement.innerHTML;
+        if (labelText.length > 23){
+            labelText = labelText.slice(0, 20) + "...";
+        }
+        var label = ContextMenu.createLabel(labelText);
+        var favorite = ContextMenu.createMenuLink("Favorite this", "", function () {
+            Favorites.push(parseInt(cardElement.getAttribute("id").slice(4)));
+            setCookie("favorites", JSON.stringify(Favorites), 365);
+            var fave = cardElement.cloneNode();
+            fave.addEventListener("click", copyToClipboard);
+            fave.addEventListener("contextmenu", popContextFave);
+            document.getElementById("faves").appendChild(fave);
+        });
+        var remove = ContextMenu.createMenuLink("Delet this 🔫", "", function () {
+            Hates.push(parseInt(cardElement.getAttribute("id").slice(4)));
+            setCookie("hates", JSON.stringify(Hates), 365);
+            cardElement.parentNode.removeChild(cardElement);
+        });
+        return [label, favorite, remove];
+    }
+
+    function createFaveNodeList(cardElement){
+        var labelText = cardElement.innerHTML;
+        if (labelText.length > 23){
+            labelText = labelText.slice(0, 20) + "...";
+        }
+        var label = ContextMenu.createLabel(labelText);
+        var favorite = ContextMenu.createMenuLink("Un-favorite this", "", function () {
+            var index = Favorites.indexOf(parseInt(cardElement.getAttribute("id").slice(4)));
+            Favorites.splice(index, 1);
+            setCookie("favorites", JSON.stringify(Favorites), 365);
+            cardElement.parentNode.removeChild(cardElement);
+        });
+        return [label, favorite];
+    }
+
+    function createPageNodeList(){
+
+        var label = ContextMenu.createLabel("Chat Spam");
+        var create = ContextMenu.createMenuLink("Create New", "", function () {
+            var text = prompt("Enter meme text");
+            if(text.length > 0){
+                $.ajax({
+                    type: "POST",
+                    url: "/shinobu/chatspam/new",
+                    data: {
+                        text:text,
+                        csrfmiddlewaretoken: "{{ csrf_token }}"
+                    },
+                    success: function(data) {
+
+                        if (data.result == "success"){
+                            Notification.Toast.message("Card successfully created");
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        }else{
+                            Notification.Toast.message("Card could not be created");
+                        }
+                    }
+                });
+            }
+        });
+        return [label, create];
+    }
+</script>
+
