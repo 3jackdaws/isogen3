@@ -293,3 +293,9 @@ textarea.card{
     margin: 20px;
 }
 
+.footer-card-image{
+    background-position: center center;
+    background-size: cover;
+    height: 64px;
+    width: 64px;
+}

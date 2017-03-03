@@ -6,6 +6,8 @@ import misaka
 from pygments import highlight
 from pygments.formatters import ClassNotFound, HtmlFormatter
 from pygments.lexers import get_lexer_by_name
+import re
+import random
 
 
 class BlogPost(Model):
@@ -19,7 +21,7 @@ class BlogPost(Model):
     related_posts = models.ManyToManyField("BlogPost", blank=True)
     post_tags = models.ManyToManyField(Tag, blank=True)
     featured = models.BooleanField(default=False)
-
+    url = models.CharField(editable=False, unique=True, max_length=64, default=None, null=True)
 
     def __str__(self):
         return self.title
@@ -31,6 +33,14 @@ class BlogPost(Model):
         renderer = HighlighterRenderer()
         md = misaka.Markdown(renderer, extensions=('fenced-code',))
         return md(self.body)
+
+    def get_authors_text(self):
+        return ", ".join([x.fullname() for x in self.author.all()])
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.url = re.sub("[^a-zA-Z0-9-]", "", str(self.title).replace(" ", "-"))
+        super(BlogPost, self).save()
 
 
 class HighlighterRenderer(misaka.HtmlRenderer):

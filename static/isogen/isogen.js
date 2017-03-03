@@ -62,12 +62,15 @@ function searchFor(){
 }
 
 function highlightText(){
-    if (typeof Search !== 'undefined' && Search){
-        var text = document.getElementById('main-content').querySelectorAll(".searchable");
-        var len = text.length;
-        for(var i = 0; i<len; i++){
-            text[i].innerHTML = text[i].innerHTML.replace(new RegExp("(" + Search + ")", "i") , "<a>$1</a>");
+    if (typeof Search !== 'undefined'){
+        if(Search){
+            var text = document.getElementById('main-content').querySelectorAll(".searchable");
+            var len = text.length;
+            for(var i = 0; i<len; i++){
+                text[i].innerHTML = text[i].innerHTML.replace(new RegExp("(" + Search + ")", "i") , "<a>$1</a>");
+            }
         }
+
     }else{
         var sField = document.getElementById("s");
         sField.className += " is-disabled";

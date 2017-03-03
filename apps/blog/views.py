@@ -11,7 +11,10 @@ def blog(request, search=None):
     if search:
         search = search.rsplit("/")[1].lower()
         for post in BlogPost.objects.order_by("-datetime_posted"):
-            if search in post.title.lower() or search in post.subtitle.lower() or search in post.get_tags_str().lower():
+            if search in post.title.lower() \
+                    or search in post.subtitle.lower() \
+                    or search in post.get_tags_str().lower()\
+                    or search in post.get_authors_text().lower():
                 posts.append(post)
     else:
         posts = BlogPost.objects.order_by("-datetime_posted")

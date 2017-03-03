@@ -3,7 +3,7 @@
 {% include "components/navigation.html" %}
 
 {% include "components/modals/alert.html" %}
-
+{% if most_recent %}
 <div id="featured-post" style="background-image: url('/media/{{ most_recent.header_picture.url }}'); ">
 
     <div class="featured-card post" onclick="location='/blog/post/{{ most_recent.id }}'">
@@ -19,6 +19,7 @@
         <span style="position: absolute; right: 4px; top: 4px; color: lightgrey;">FEATURED</span>
     </div>
 </div>
+{% endif %}
 <div id="main-content" class="container is-flex" style="padding-top: 30px;justify-content: space-around; flex-flow: row wrap;">
     {% include 'blog/recent.html' %}
 </div>

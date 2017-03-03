@@ -12,7 +12,8 @@
         <p class="content searchable" style="height: 40px;">
             {{ post.subtitle }}
         </p>
-        {{ post.author.all.0.fullname }} - {{ post.datetime_posted.date }}
+        <span class="searchable">{{ post.get_authors_text }} - {{ post.datetime_posted.date }}</span>
+
         <hr>
         <small class="searchable">{{ post.get_tags_str }}</small>
     </div>

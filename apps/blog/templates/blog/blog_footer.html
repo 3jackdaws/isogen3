@@ -5,16 +5,18 @@
             <a class="box" href="/blog/post/{{ post.id }}">
                 <div class="media">
                     <div class="media-left">
-                        <figure class="image is-64x64">
-                            <img src="/media/{{ post.header_picture.url }}" alt="Image">
-                        </figure>
+                        <div class="footer-card-image" style="background-image: url('http://isogen.net/media/{{ post.header_picture.url }}')">
+
+                        </div>
                     </div>
                     <div class="media-content">
                         <div class="content">
                             <p style="font-family: 'Bitter', serif;">
-                              <strong>{{ post.author.all.0.fullname }}</strong> - <small>{{ post.datetime_posted.date }}</small>
-                              <br>
-                              {{ post.title }}
+                                <span class="is-link">{{ post.get_authors_text }}</span> - <small>{{ post.datetime_posted.date }}</small>
+                                <br>
+                                <strong>{{ post.title }}</strong>
+                                <br>
+                                <small>{{ post.subtitle.upper }}</small>
                             </p>
                         </div>
                         <nav class="level">
