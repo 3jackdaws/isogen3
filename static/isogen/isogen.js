@@ -3,7 +3,6 @@
  */
 
 window.addEventListener("load", highlightText);
-window.addEventListener("load", initLoadImages);
 
 function notification(text, closeable, classname){
     var notification = document.createElement("div");
@@ -111,17 +110,6 @@ function setCookie(cname, cvalue, exdays) {
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function initLoadImages() {
-    var imageLoaders = [...document.getElementsByClassName("display-on-load")];
-
-    for(i = 0; i<imageLoaders.length; i++){
-        console.log(imageLoaders[i]);
-        imageLoaders[i].addEventListener("load", fadeInImage);
-
-    }
-
 }
 
 function fadeInImage(element){

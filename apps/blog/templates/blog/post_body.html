@@ -1,4 +1,6 @@
-<div id="header-image" style="background-image: url('/media/{{ post.header_picture.url }}'); background-size: cover"></div>
+<div id="header-image" class="awaits-image-load">
+    <img src="https://isogen.net/media/{{ post.header_picture.url }}" class="display-on-load" onload="fadeInImage(this)">
+</div>
 <div id="posts-container" class="container-fluid" style="margin-bottom: 0; padding-bottom: 0;">
     <article style="margin-bottom: 0;">
         <div class="content">
