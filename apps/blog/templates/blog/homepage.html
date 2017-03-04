@@ -4,20 +4,21 @@
 
 {% include "components/modals/alert.html" %}
 {% if most_recent %}
-<div id="featured-post" style="background-image: url('/media/{{ most_recent.header_picture.url }}'); ">
+<div id="featured-post" class="awaits-image-load">
+    <img class="display-on-load" src="https://isogen.net/media/{{ most_recent.header_picture.url }}" onload="fadeInImage(this)">
 
-    <div class="featured-card post" onclick="location='/blog/post/{{ most_recent.id }}'">
-        <h1 class="title">{{ most_recent.title }}</h1>
-        <h3 class="subtitle">{{ most_recent.subtitle.upper }}</h3>
-        <strong><a>{{ most_recent.author.all.0.fullname }}</a></strong> <strong>&middot;</strong> <small>{{ most_recent.datetime_posted }}</small>
-        <hr>
-        <div style="margin-top: 12px;">
-            {% for tag in most_recent.post_tags.all %}
-            <span class="tag is-primary">{{ tag }}</span>
-            {% endfor %}
-        </div>
-        <span style="position: absolute; right: 4px; top: 4px; color: lightgrey;">FEATURED</span>
+</div>
+<div class="featured-card post" onclick="location='/blog/post/{{ most_recent.id }}'">
+    <h1 class="title">{{ most_recent.title }}</h1>
+    <h3 class="subtitle">{{ most_recent.subtitle.upper }}</h3>
+    <strong><a>{{ most_recent.author.all.0.fullname }}</a></strong> <strong>&middot;</strong> <small>{{ most_recent.datetime_posted }}</small>
+    <hr>
+    <div style="margin-top: 12px;">
+        {% for tag in most_recent.post_tags.all %}
+        <span class="tag is-primary">{{ tag }}</span>
+        {% endfor %}
     </div>
+    <span style="position: absolute; right: 4px; top: 4px; color: lightgrey;">FEATURED</span>
 </div>
 {% endif %}
 <div id="main-content" class="container is-flex" style="padding-top: 30px;justify-content: space-around; flex-flow: row wrap;">

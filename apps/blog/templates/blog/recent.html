@@ -2,8 +2,8 @@
 {% for post in posts %}
 
 <div class="card blog-post hover-expand" onclick="window.location='/blog/post/{{ post.id }}'" style="cursor:pointer">
-    <div style="background-image: url('/media/{{ post.header_picture.url }}'); height: 200px; background-size: cover; background-position: center center">
-
+    <div class="image-div awaits-image-load" style="height: 200px;">
+        <img class="display-on-load" src="https://isogen.net/media/{{ post.header_picture.url }}" onload="fadeInImage(this)"/>
     </div>
     <div class="card-content post" style="text-align: center;">
 
