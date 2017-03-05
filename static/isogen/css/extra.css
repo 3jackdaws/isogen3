@@ -4,7 +4,7 @@ html{
 
 body{
     position:relative;
-    padding-bottom: 200px;
+    /*padding-bottom: 200px;*/
     min-height: 100%;
 }
 
@@ -195,7 +195,7 @@ pre{
 #header-image{
 
     width: 100%;
-    height: 600px;
+    height: 100%;
     position: fixed;
     top: 0;
     background-position: center center;
@@ -203,9 +203,11 @@ pre{
 
 #posts-container{
     position: relative;
-    margin-top: 500px;
+    margin-top: calc(100vh - 250px);
     width: 100%;
     overflow: hidden;
+    transform: translateY(250);
+    visibility: hidden;
 }
 
 article .content{
@@ -311,4 +313,25 @@ textarea.card{
 
 .display-on-load{
     visibility: hidden;
+}
+
+nav.fixed{
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.post-scroll{
+    animation: 0.5s scrollup forwards ease;
+}
+
+@keyframes scrollup {
+    0%{
+        transform: translateY(250px);
+        visibility: visible;
+    }
+    100%{
+        transform: translateY(0);
+        visibility: visible;
+    }
 }

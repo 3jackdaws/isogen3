@@ -28,3 +28,27 @@
 
 
 </div>
+<script>
+    window.addEventListener("load", function () {
+        var nav = document.getElementById("navbar");
+        var navBottomPx = nav.getBoundingClientRect().bottom;
+        var navHeight = nav.getBoundingClientRect().height;
+        var main = document.getElementById("posts-container");
+        nav.classList.add("fixed");
+        window.addEventListener("scroll", function () {
+            console.log(document.body.scrollTop);
+            if(main.getBoundingClientRect().top <= navBottomPx){
+                nav.style.position = "absolute";
+                nav.style.top = -navHeight + "px";
+            }
+
+            if(nav.getBoundingClientRect().top > 0){
+                nav.style.position = "fixed";
+                nav.style.top = 0;
+            }
+        });
+        main.classList.add("post-scroll");
+    });
+
+
+</script>
