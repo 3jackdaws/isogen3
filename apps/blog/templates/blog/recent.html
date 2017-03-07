@@ -1,5 +1,5 @@
-{% if posts %}
-{% for post in posts %}
+{% if most_recent %}
+{% for post in most_recent %}
 
 <div class="card post" onclick="window.location='/blog/post/{{ post.id }}'" style="cursor:pointer">
     <div class="image-div awaits-image-load" style="height: 200px;">
@@ -15,8 +15,8 @@
         <strong><a class="searchable">{{ post.get_authors_text }}</a></strong>
          - <span>{{ post.datetime_posted.date }}</span>
 
-        <hr>
-        <small class="searchable">{{ post.get_tags_str }}</small>
+        <!--<hr>-->
+        <!--<small class="searchable">{{ post.get_tags_str }}</small>-->
     </div>
 </div>
 {% endfor %}

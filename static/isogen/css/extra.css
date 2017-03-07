@@ -241,7 +241,7 @@ article .content h1, h2{
 .card.post{
     max-height: 400px;
     width: 350px;
-    margin: 20px 10px 20px 10px;
+    margin: 10px;
 }
 
 .post span,p,h1,h2,h3,h4,h5,h6{
@@ -262,6 +262,11 @@ article .content h1, h2{
     margin-bottom: 5px;
     font-size: 24px;
 }
+
+.box.post{
+    border-radius: 0;
+}
+
 
 article .content::before{
     display: block;
@@ -344,6 +349,10 @@ nav.fixed{
 
 .post-scroll{
     animation: 0.5s scrollup forwards ease;
+}
+
+strong.is-link{
+    color: #9f1aff;
 }
 
 @keyframes scrollup {

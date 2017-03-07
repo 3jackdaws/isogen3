@@ -19,9 +19,12 @@ def blog(request, search=None):
                 posts.append(post)
     else:
         posts = BlogPost.objects.order_by("-datetime_posted")
-        featured = posts.filter(featured=True)[0:]
-        posts = posts.exclude(id__in=[x.id for x in featured])
-        most_recent = posts[0:2]
+        try:
+            featured = posts.filter(featured=True)[0]
+        except:
+            pass
+        posts = posts.exclude(id=featured.id)
+        most_recent = posts[0:3]
         posts = posts[3:12]
 
     context = {

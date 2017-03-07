@@ -9,7 +9,7 @@
 
 </div>
 <div class="featured-card post" onclick="location='/blog/post/{{ most_recent.id }}'">
-    <h1 class="title">{{ featured.title }}</h1>
+    <h1 class="title" style="font-size: 30px;">{{ featured.title }}</h1>
 
     <h3 class="">{{ featured.subtitle.upper }}</h3>
     <strong><a>{{ featured.author.all.0.fullname }}</a></strong> <strong>&middot;</strong> <small>{{ featured.datetime_posted }}</small>
@@ -19,11 +19,35 @@
         <span class="tag is-light is-small">{{ tag }}</span>
         {% endfor %}
     </div>
-    <span style="position: absolute; right: 4px; top: 4px; color: lightgrey;">FEATURED</span>
+    <span style="margin:0;position: absolute; right: 4px; top: 1px; color: lightgrey; font-size: 20px" >FEATURED</span>
 </div>
 {% endif %}
-<div id="main-content" class="container is-flex" style="padding-top: 30px;justify-content: space-around; flex-flow: row wrap;">
+<div class="container" style="padding: 0 10px 0 10px;">
+    <h1 class="title" style="margin: 10px; color: #888">Latest Posts</h1>
+    <hr style="margin: 10px;">
+</div>
+<div id="main-content" class="container is-flex" style="padding: 10px;justify-content: space-between; flex-flow: row wrap;">
     {% include 'blog/recent.html' %}
+
+    {% if posts %}
+    {% for post in posts %}
+        <a class="box post" href="/blog/post/{{ post.id }}" style="margin: 10px; border-radius: 0;">
+            <div class="media">
+                <div class="media-left">
+                    <div class="footer-card-image" style="background-image: url('https://isogen.net/media/{{ post.header_picture.url }}'); height: 128px; width: 128px;">
+
+                    </div>
+                </div>
+                <div class="">
+                    <h1 class="title">{{ post.title }}</h1>
+                    <h3 class="subtitle" style="margin-top: 7px;">{{ post.subtitle }}</h3>
+                    <strong class="is-link">{{ post.get_authors_text }}</strong> - <small>{{ post.datetime_posted.date }}</small>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+    {% endif %}
+
 </div>
 {% include 'components/footer.html' %}
 <script>
