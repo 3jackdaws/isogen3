@@ -8,6 +8,7 @@ def blog(request, search=None):
     user = get_user(request)
     posts = []
     most_recent = None
+    featured = None
     if search:
         search = search.rsplit("/")[1].lower()
         for post in BlogPost.objects.order_by("-datetime_posted"):
@@ -18,16 +19,19 @@ def blog(request, search=None):
                 posts.append(post)
     else:
         posts = BlogPost.objects.order_by("-datetime_posted")
-        most_recent = posts[0]
-        posts = posts[1:]
+        featured = posts.filter(featured=True)[0:]
+        posts = posts.exclude(id__in=[x.id for x in featured])
+        most_recent = posts[0:2]
+        posts = posts[3:12]
 
     context = {
         "title": "Recent Posts - ISOGEN Blog",
         "login_form": get_nav_form(request),
         "user": user,
         "posts":posts,
+        "featured":featured,
         "most_recent":most_recent,
-        "search": search
+        "search": "" if search is None else search
     }
     return render(request, 'blog/homepage.html', context)
 

@@ -1,18 +1,19 @@
 {% if posts %}
 {% for post in posts %}
 
-<div class="card blog-post hover-expand" onclick="window.location='/blog/post/{{ post.id }}'" style="cursor:pointer">
+<div class="card post" onclick="window.location='/blog/post/{{ post.id }}'" style="cursor:pointer">
     <div class="image-div awaits-image-load" style="height: 200px;">
         <img class="display-on-load" src="https://isogen.net/media/{{ post.header_picture.url }}" onload="fadeInImage(this)"/>
     </div>
-    <div class="card-content post" style="text-align: center;">
+    <div class="card-content" style="">
 
         <h1 class="title searchable">{{ post.title }}</h1>
 
-        <p class="content searchable" style="height: 40px;">
+        <h3 class="searchable" style="">
             {{ post.subtitle }}
-        </p>
-        <span class="searchable">{{ post.get_authors_text }} - {{ post.datetime_posted.date }}</span>
+        </h3>
+        <strong><a class="searchable">{{ post.get_authors_text }}</a></strong>
+         - <span>{{ post.datetime_posted.date }}</span>
 
         <hr>
         <small class="searchable">{{ post.get_tags_str }}</small>

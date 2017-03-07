@@ -11,7 +11,7 @@
     <script src="/static/isogen/js/context-menu.js" ></script>
     <script src="/static/isogen/js/notifications.js" ></script>
     <script>
-        {% if search %}
+        {% if search is not None %}
         var Search = '{{ search }}';
         {% else %}
         var Search = null;

@@ -62,8 +62,8 @@ function searchFor(){
 }
 
 function highlightText(){
-    if (typeof Search !== 'undefined'){
-        if(Search){
+    if (typeof Search !== "undefined"){
+        if(Search.length > 0){
             var text = document.getElementById('main-content').querySelectorAll(".searchable");
             var len = text.length;
             for(var i = 0; i<len; i++){

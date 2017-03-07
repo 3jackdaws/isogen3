@@ -14,7 +14,7 @@ body{
 }
 
 .card .content{
-    height: 80px;
+
     white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -238,8 +238,29 @@ article .content h1, h2{
     font-family: "Bitter", serif;
 }
 
+.card.post{
+    max-height: 400px;
+    width: 350px;
+    margin: 20px 10px 20px 10px;
+}
+
+.post span,p,h1,h2,h3,h4,h5,h6{
+    margin-top: 5px;
+    margin-bottom: 7px;
+}
+
+.post:hover{
+    border-color: #9f1aff;
+}
+
+.post:hover .title{
+    color: #9f1aff;
+}
+
 .post .title{
     font-family: "Bitter", serif;
+    margin-bottom: 5px;
+    font-size: 24px;
 }
 
 article .content::before{
