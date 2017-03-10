@@ -244,13 +244,13 @@ article .content h1, h2{
     margin: 10px;
 }
 
-.post span,p,h1,h2,h3,h4,h5,h6{
+.post span,.post p, .post h1, .post h2,.post h3, .post h4, .post h5,.post h6{
     margin-top: 5px;
     margin-bottom: 7px;
 }
 
 .post:hover{
-    border-color: #9f1aff;
+    outline: 1px solid #9f1aff;
 }
 
 .post:hover .title{
@@ -265,6 +265,7 @@ article .content h1, h2{
 
 .box.post{
     border-radius: 0;
+    width: 100%;
 }
 
 
