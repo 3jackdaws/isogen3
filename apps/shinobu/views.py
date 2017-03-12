@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.http import HttpRequest
 from isogen.views import get_nav_form, json_response
-from apps.shinobu.models import Stickynote, ChatSpam
+from apps.shinobu.models import Stickynote, ChatSpam, DiscussionTopic
 import pymysql
 from isogen.settings import DATABASES, BASE_DIR
 import sys
@@ -105,4 +105,19 @@ def chat_spam_add(request:HttpRequest):
     return json_response(request, {
         "result":response_text
     })
+
+def discussion(request, method="get"):   #disgusting
+    if not method:
+        method = "get"
+    result = {
+        "response":"Shinobu API",
+        "version":"1.0",
+        "method":method.upper()
+    }
+
+    if method == "PUT":     #really disgusting
+        obj = request.POST
+        result += obj
+
+    return json_response(request, result)
 

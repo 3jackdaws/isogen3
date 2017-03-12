@@ -13,3 +13,6 @@ class Stickynote(Model):
 class ChatSpam(Model):
     text = models.CharField(max_length=2000)
 
+class DiscussionTopic(Model):
+    name = models.CharField(max_length=200)
+    url = models.URLField(blank=True)

@@ -1,7 +1,7 @@
 {% if most_recent %}
 {% for post in most_recent %}
 
-<div class="card post" onclick="window.location='/blog/post/{{ post.id }}'" style="cursor:pointer">
+<div class="card post" onclick="window.location='/blog/post/{{ post.url }}'" style="cursor:pointer">
     <div class="image-div awaits-image-load" style="height: 200px;">
         <img class="display-on-load" src="https://isogen.net/media/{{ post.header_picture.url }}" onload="fadeInImage(this)"/>
     </div>

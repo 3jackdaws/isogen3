@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     url(r'^(find/.+)?$', views.blog),
-    url(r'^post/([0-9]+)', views.blog_post)
+    url(r'^post/([a-zA-Z0-9-_]+)', views.blog_post)
 ]

@@ -38,9 +38,9 @@ def blog(request, search=None):
     }
     return render(request, 'blog/homepage.html', context)
 
-def blog_post(request, id):
+def blog_post(request, name):
     user = get_user(request)
-    post = BlogPost.objects.get(id=id)
+    post = BlogPost.objects.get(url=name)
     footer_posts = list(post.related_posts.all()[:3])
     num_req = 3 - len(footer_posts)
     if num_req > 0:
