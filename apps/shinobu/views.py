@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.http import HttpRequest
 from isogen.views import get_nav_form, json_response
-from apps.shinobu.models import Stickynote, ChatSpam, DiscussionTopic
+from apps.shinobu.models import Stickynote, ChatSpam, DiscussionTopic, TrashTakeout, House, HouseMember
 import pymysql
 from isogen.settings import DATABASES, BASE_DIR
 import sys
@@ -121,3 +121,25 @@ def discussion(request, method="get"):   #disgusting
 
     return json_response(request, result)
 
+def trash_duty(request, house):
+    house = House.objects.filter(name__icontains=house)[0]
+
+    entries = TrashTakeout.objects.filter(house=house)
+    notify = None
+    if request.POST:
+        try:
+            actor = request.POST['actor']
+            date = request.POST['date']
+            if actor and date:
+                actor = house.members.get(name=actor)
+                entry = TrashTakeout.objects.create(who=actor, house=house)
+                notify = "Added entry"
+        except Exception as e:
+            print(e)
+    entries = TrashTakeout.objects.order_by("-datetime")[:10]
+    context = {
+        "title": "Trash Take out duty",
+        "entries":entries,
+        "notify":notify
+    }
+    return render(request, 'shinobu/trash.html', context)

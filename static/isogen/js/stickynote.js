@@ -129,6 +129,9 @@
         this.setPosition(x,y,z);
         this.node['object'] = this;
         this.node.readOnly = true;
+        this.node.unselectable = true;
+        this.node.setAttribute("draggable", false);
+        this.node.onselectstart = false;
         this.node.onclick = function (event) {
             event.preventDefault();
         };

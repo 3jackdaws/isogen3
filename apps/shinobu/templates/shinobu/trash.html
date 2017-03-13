@@ -1,0 +1,71 @@
+{% include 'components/head.html' %}
+<div class="container" style="padding-top: 200px;">
+
+
+
+<div class="columns">
+    <div class="column is-6">
+        <div class="container">
+            <nav class="panel" style="background-color: white">
+                <p class="panel-heading">
+                    Latest Entries
+
+
+                </p>
+
+                {% for entry in entries %}
+                <div class="panel-block tab-selector is-primary">
+                    <div class="is-pulled-left" style="min-width: 30%">
+                        <strong>{{  entry.who }}</strong>
+                    </div>
+                    <span>{{ entry.datetime }}</span>
+
+                </div>
+                {% endfor %}
+            </nav>
+        </div>
+    </div>
+
+    <div class="column" style="">
+        <div class="box is-fullwidth" >
+            <h1 class="title">Take out the trash</h1>
+            <form action="" method="POST">
+                <p class="control">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <span class="select" >
+                        <select style="font-size: 20px; margin-right: 10px;" name="actor">
+                            <option>Someone</option>
+                            <option>Ian</option>
+                            <option>Tristan</option>
+                            <option>Daniel</option>
+                        </select>
+                    </span>
+                    <span style="font-size: 20px;  margin-right: 15px; margin-left: 10px;"> took out the trash </span>
+                    <span class="select" >
+                        <select style="font-size: 20px;" name="date">
+                            <option>Today</option>
+                            <option>Yesterday</option>
+
+                        </select>
+                    </span>
+                    <button class="button is-outlined is-primary" style="margin-left:10px;">Submit</button>
+                </p>
+
+
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    window.addEventListener("load", function () {
+        {% if notify %}
+        Notification.Toast.message('{{ notify }}');
+        {% endif %}
+    })
+
+</script>
+

@@ -16,3 +16,21 @@ class ChatSpam(Model):
 class DiscussionTopic(Model):
     name = models.CharField(max_length=200)
     url = models.URLField(blank=True)
+
+class HouseMember(Model):
+    name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
+
+class House(Model):
+    name = models.CharField(max_length=64)
+    members = models.ManyToManyField(HouseMember)
+
+    def __str__(self):
+        return self.name
+
+class TrashTakeout(Model):
+    datetime = models.DateTimeField(auto_now=True)
+    who = models.ForeignKey(HouseMember)
+    house = models.ForeignKey(House)

@@ -21,7 +21,6 @@ urlpatterns = [
     url(r'^logout/?', views.user_logout, name='logout'),
     url(r'^error/([0-9]+)', views.error),
 
-    url(r'^templates/', include("apps.templates.urls")),
     url(r'^shinobu/', include("apps.shinobu.urls")),
 
     url(r'.', views.error_nf, name='error'),

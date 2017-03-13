@@ -252,7 +252,12 @@ def get(request, fileid=None):
 
 def accept_file(request):
     authenticated_user = None
-    if request.user.is_authenticated() and "uploadedFile" in request.FILES:
+    failure_reason = None
+    if not request.user.is_authenticated():
+        failure_reason = "user not authenticated"
+    if not "uploadedFile" in request.FILES:
+        failure_reason = "no file uploaded"
+    else:
         authenticated_user = request.user
 
         file = request.FILES["uploadedFile"] #type: InMemoryUploadedFile
@@ -269,10 +274,11 @@ def accept_file(request):
             "result": "success",
             "name": file.name
         }
-    else:
+    if failure_reason is not None:
         response = {
             "action": "file-upload",
-            "result": "failure"
+            "result": "failure",
+            "reason":failure_reason
         }
 
     return json_response(request, response)

@@ -114,4 +114,12 @@ class MemberRegisterForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class":"input", "type":"password"}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={"class":"input", "type":"password"}))
 
+class Permission(Model):
+    name = models.CharField(max_length=32)
+    description = models.CharField(max_length=400)
+
+class APIConsumer(Model):
+    identifier = models.CharField(max_length=32, primary_key=True)
+    permissions = models.ManyToManyField(Permission)
+
 

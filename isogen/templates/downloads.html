@@ -1,6 +1,6 @@
 
 {% include "components/head.html" %}
-
+<body style="min-height: 100vh">
 {% include "components/navigation.html" %}
 
 
@@ -18,7 +18,7 @@
             </div>
         </div>
     </section>
-    <div id="files-container" class="container" style="padding-top: 30px;">
+    <div id="files-container" class="container" style="padding-top: 30px;padding-bottom: 30px;">
         {% include 'components/available_files.html' %}
     </div>
     {% include 'components/footer.html' %}
@@ -33,7 +33,7 @@
     window.addEventListener("drop",function(e){
         e = e || event;
         e.preventDefault();
-        console.log(getCookie("sessionid"));
+
         if (Username.length == 0){
             showTab(null, "UploadFile");
             on_file_response_from_server({result:":^("});

@@ -4,7 +4,7 @@ html{
 
 body{
     position:relative;
-    /*padding-bottom: 200px;*/
+    padding-bottom: 200px !important;
     min-height: 100%;
 }
 
@@ -107,7 +107,7 @@ pre{
     height: 150px;
     box-shadow: 1px 1px 5px rgba(0,0,0,.5);
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAADhJREFUCB1j/P9u5hkGBsYGBjD4D6ZZIBwQCRKASDJBGBAVEAkGBqAgCMC0g+j/DUDtMFUwCQYGALW4D2DIX5GaAAAAAElFTkSuQmCC);
-    /*background-color: #ffee99;*/
+
     resize: none;
     padding: 10px;
     padding-top: 15px;
@@ -117,6 +117,7 @@ pre{
     outline: none;
     cursor: pointer;
     user-select: none;
+    -webkit-user-drag: none;
 }
 
 .stickynote:focus{
