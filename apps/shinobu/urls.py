@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'chatspam', views.chat_spam),
     url(r'discussion/([a-z0-9A-Z]+)?', views.discussion),
     url(r'trash/([a-zA-Z0-9]+)', views.trash_duty),
+    url(r'blank', views.blank),
 
     url(r'kv/(.+)/([a-z0-9/-_]+)?', views.kvstore)
 ]

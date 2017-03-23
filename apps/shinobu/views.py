@@ -136,10 +136,17 @@ def trash_duty(request, house):
                 notify = "Added entry"
         except Exception as e:
             print(e)
-    entries = TrashTakeout.objects.order_by("-datetime")[:10]
+    entries = entries.order_by("-datetime")[:10]
     context = {
         "title": "Trash Take out duty",
         "entries":entries,
+        "house":house,
         "notify":notify
     }
     return render(request, 'shinobu/trash.html', context)
+
+def blank(request):
+    context = {
+        "title": "Trash Take out duty"
+    }
+    return render(request, 'shinobu/blank.html', context)

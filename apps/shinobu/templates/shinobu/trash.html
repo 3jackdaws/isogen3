@@ -35,9 +35,9 @@
                     <span class="select" >
                         <select style="font-size: 20px; margin-right: 10px;" name="actor">
                             <option>Someone</option>
-                            <option>Ian</option>
-                            <option>Tristan</option>
-                            <option>Daniel</option>
+                            {% for member in house.members.all %}
+                            <option>{{ member }}</option>
+                            {% endfor %}
                         </select>
                     </span>
                     <span style="font-size: 20px;  margin-right: 15px; margin-left: 10px;"> took out the trash </span>

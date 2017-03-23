@@ -11,7 +11,9 @@ var Notification = {
             var toast = Notification.Toast.__getToastDivNode();
             toast.innerHTML = text;
             document.body.appendChild(toast);
+            Notification.Toast.stack.push(toast);
             Notification.Toast.__removeToast(toast, timeout);
+            return toast;
         },
         __getToastDivNode:function () {
             var toast = document.createElement("div");
@@ -20,9 +22,13 @@ var Notification = {
             return toast;
         },
         __removeToast:function (toast, timeout) {
+            if(timeout == -1) return;
             setTimeout(function () {
                 document.body.removeChild(toast);
             }, timeout);
+        },
+        remove:function(toast){
+            if(document.body == toast.parentNode) document.body.removeChild(toast);
         }
     }
 

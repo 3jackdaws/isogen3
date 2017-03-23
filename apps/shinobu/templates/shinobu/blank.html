@@ -1,0 +1,18 @@
+{%  include 'components/head.html' %}
+<body>
+
+{% include 'components/navigation.html' %}
+<script>
+    window.addEventListener("load", function () {
+{#        document.body.addEventListener("contextmenu", ContextMenu.install(getBodyContextMenuNodes()))#}
+    });
+
+    function getBodyContextMenuNodes() {
+        var label = ContextMenu.createLabel("Menu");
+        var link1 = ContextMenu.createMenuLink("Do Stuff", "", function () {
+            Notification.Toast.message("Hello :^)");
+        });
+        return [label, link1];
+    }
+</script>
+</body>

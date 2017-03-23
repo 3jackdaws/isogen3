@@ -5,7 +5,9 @@ var ContextMenu = {
         ContextMenu.base = document.createElement("div");
         ContextMenu.base.className = "context-menu";
         ContextMenu.base.onclick = function (event) {
+            if(event.target.nodeName = 'A') ContextMenu.close();
             event.stopPropagation();
+            event.preventDefault();
         };
 
         document.addEventListener("click", function(){
@@ -21,7 +23,7 @@ var ContextMenu = {
      * @param nodeList
      * @returns {boolean}
      *
-     * Decription:  Creates a context menu and appends it to the body of the HTML doc.
+     * Description:  Creates a context menu and appends it to the body of the HTML doc.
      *              Requires the right-click mouse event and a list of HTML Elements
      *              that are to be included inb the context menu
      */
@@ -29,13 +31,14 @@ var ContextMenu = {
         mouseEvent.preventDefault();
         mouseEvent.stopPropagation();
         ContextMenu.close();
-
+        console.log(mouseEvent);
         if(!ContextMenu.base) ContextMenu.init();
 
         ContextMenu.current = ContextMenu.base.cloneNode(false);
+        ContextMenu.current.onclick = ContextMenu.base.onclick;
         ContextMenu.appendNodes(nodeList);
-        ContextMenu.current.style.left = event.pageX;
-        ContextMenu.current.style.top = event.pageY;
+        ContextMenu.current.style.left = event.x;
+        ContextMenu.current.style.top = event.y;
         ContextMenu.current.zIndex = 99999999999999999;
         document.body.appendChild(ContextMenu.current);
         return false;
@@ -45,7 +48,9 @@ var ContextMenu = {
      */
     close:function(){
         if(ContextMenu.current){
-            document.body.removeChild(ContextMenu.current);
+            var node = ContextMenu.current;
+            ContextMenu.current = null;
+            document.body.removeChild(node);
         }
     },
     /**
@@ -79,5 +84,11 @@ var ContextMenu = {
         var label = document.createElement('p');
         label.innerHTML = text;
         return label;
+    },
+    install:function(nodeList){
+        return function (event) {
+            ContextMenu.create(event, nodeList);
+            return false;
+        }
     }
 };

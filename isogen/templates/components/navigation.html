@@ -1,15 +1,14 @@
-<nav class="nav" id="navbar">
+<nav class="nav" id="navbar" >
     <div class="nav-left">
         <a class="nav-item" target="_blank" title="View my GitHub profile" href="https://github.com/3jackdaws">
-                <span class="icon">
-                    <i class="fa fa-github"></i>
-                </span>
+            <span class="icon">
+                <i class="fa fa-github"></i>
+            </span>
         </a>
         <p class="control has-addons nav-item  ">
             <input class="input" id="s" name="s" placeholder="Search This Page">
             <a class="button" onclick="searchFor()"><span class="fa fa-search"></span></a>
         </p>
-
     </div>
     <div class="nav-center is-brand">
         <a class="nav-item is-brand" href="#">
@@ -17,29 +16,29 @@
         </a>
     </div>
     <span class="nav-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
     <div class="nav-right nav-menu">
         <a class="nav-item" id="menu-home" href="/">Home</a>
         <a class="nav-item" id="menu-members" href="/blog/">Blog</a>
         <a class="nav-item" id="menu-directory" href="/directory/">Directory</a>
         <a class="nav-item" id="menu-contact" href="/contact/">Contact</a>
         <span class="nav-item">
-                <a id="sign-in-button" class="button" href="#" onclick="toggleLogin()">
-                    {% if user %}
-                        Logged in as {{user.username}}
-                    {% else %}
-                    <span class="icon">
-                        <i class="fa fa-sign-in"></i>
-                    </span>
-                    <span>
-                    Login
-                    </span>
-                    {% endif %}
-                </a>
-            </span>
+            <a id="sign-in-button" class="button" href="#" onclick="toggleLogin()">
+                {% if user %}
+                    Logged in as {{user.username}}
+                {% else %}
+                <span class="icon">
+                    <i class="fa fa-sign-in"></i>
+                </span>
+                <span>
+                Login
+                </span>
+                {% endif %}
+            </a>
+        </span>
     </div>
 </nav>
 <div id='login' class="modal">
@@ -64,5 +63,19 @@
     </div>
 </div>
 <script>
+    window.addEventListener("load", function () {
+        document.getElementById("navbar").addEventListener("contextmenu", navbarContextMenu());
+    });
     var Username = '{{ user }}' | null;
+    function navbarContextMenu() {
+        var label = ContextMenu.createLabel("Navigation");
+        var home = ContextMenu.createMenuLink("Home", "", function () {
+            location = '/';
+        });
+
+        var blog = ContextMenu.createMenuLink("Blog", "", function () {
+            location = '/blog/';
+        });
+        return ContextMenu.install([label, home, blog]);
+    }
 </script>

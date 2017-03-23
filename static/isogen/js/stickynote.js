@@ -5,6 +5,7 @@
     var ContextMenuNodeLists = {};
     var NoteSocket = null;
 
+    var reconnectingMessage = null;
 
     var zRatio;
     var GlobalZIndex = 0;
@@ -53,6 +54,7 @@
         }
 
         NoteSocket.onopen = function(){
+            if(reconnectingMessage) Notification.Toast.remove(reconnectingMessage);
             Notification.Toast.message("Connected", 1000);
             NoteSocket.send(JSON.stringify(
                 {
@@ -66,8 +68,7 @@
         };
 
         NoteSocket.onclose = function () {
-            Notification.Toast.message("Reconnecting...", 5000);
-            setTimeout(ConnectWebsocket, 5000);
+            reconnectingMessage = Notification.Toast.message("Reconnecting...", -1);
         };
     }
 

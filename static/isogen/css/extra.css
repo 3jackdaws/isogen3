@@ -64,7 +64,7 @@ pre{
 }
 
 .context-menu{
-    position: absolute;
+    position: fixed;
     box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
     background-color: #fefefe;
     min-width: 150px;
