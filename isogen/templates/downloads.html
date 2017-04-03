@@ -25,6 +25,9 @@
 
 <script>
     window.addEventListener("load", swap_file_icons);
+    window.addEventListener("load", function () {
+        document.getElementsByClassName("tab-selector")[0].click();
+    });
     window.addEventListener("dragover",function(e){
         e = e || event;
         e.preventDefault();

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.utils.html import escape
 import os
+import re
 
 
 from isogen.settings import STATIC_URL
@@ -79,7 +80,7 @@ class ProjectUpdates(Model):
 
 class File(Model):
     file = models.FileField()
-    url = models.CharField(max_length=32, unique=False, default=file.name)
+    url = models.CharField(max_length=32, unique=True)
     members_allowed = models.ManyToManyField(User, default=None, blank=True)
     description = models.CharField(max_length=400, default="No description provided.")
     date_added = models.DateTimeField(auto_now=True)
@@ -97,6 +98,11 @@ class File(Model):
 
     def hr_size(self):
         return sizeof_hr(self.file.size)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.url = re.sub("[^a-zA-Z0-9.-]", "", str(self.file.name).replace(" ", "-"))
+        super(File, self).save()
 
 
 class LoginForm(forms.Form):
