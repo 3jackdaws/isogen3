@@ -18,7 +18,7 @@
                     <span class="panel-icon">
                         <i class="fa fa-placeholder" filename='{{ file.file.name }}'></i>
                     </span>
-                    {{ file.file.name }}
+                    {{ file.url }}
                 </a>
                 {% endfor %}
             </nav>
@@ -44,7 +44,7 @@
             <div id="{{ file.file.name }}" class="tab" style="display: none; font-size: 16px;">
                 <div class="columns">
                     <div class="column">
-                        <strong>FILE NAME: </strong><span class="is-primary">{{file.file.name}}</span>
+                        <strong>FILE NAME: </strong><span class="is-primary">{{file.url}}</span>
                         <br>
                         <strong>FILE SIZE: </strong><span class="is-primary">{{file.hr_size }}</span>
                         <br>

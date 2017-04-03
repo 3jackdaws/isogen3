@@ -24,7 +24,7 @@
     {% include 'components/footer.html' %}
 
 <script>
-    window.addEventListener("load", populate_files);
+    window.addEventListener("load", swap_file_icons);
     window.addEventListener("dragover",function(e){
         e = e || event;
         e.preventDefault();
@@ -115,7 +115,9 @@
         var classname = "filedrop ";
         if ( file_response.result == "success"){
             setUploadBox("File Upload Succeeded", "fa-check-circle-o", "success");
-            setTimeout(populate_files, 2000);
+            setTimeout(function () {
+                window.location.reload();
+            }, 2000);
         }else{
             setUploadBox("File Upload Failed", "fa-frown-o", "failure");
         }

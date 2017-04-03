@@ -79,6 +79,7 @@ class ProjectUpdates(Model):
 
 class File(Model):
     file = models.FileField()
+    url = models.CharField(max_length=32, unique=False, default=file.name)
     members_allowed = models.ManyToManyField(User, default=None, blank=True)
     description = models.CharField(max_length=400, default="No description provided.")
     date_added = models.DateTimeField(auto_now=True)

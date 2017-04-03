@@ -52,32 +52,32 @@ def get_nav_form(request):
         login_logout_form = LoginForm
     return login_logout_form
 
-def downloads(request):
-    user = None
-    if request.user.is_authenticated():
-        user = request.user
-    context = {"title": "Downloads - ISOGEN", "login_form":get_nav_form(request), "user":user}
+def downloads(request, file_name=None):
+    user = get_user(request)
+    files = files_available(user, file_name)
+    context = {"title": "Downloads - ISOGEN", "login_form":get_nav_form(request), "user":user, "files":files}
     return render(request, 'downloads.html', context)
 
 
-def files_available(request):
-    user = None
-    if request.user.is_authenticated():
-        user = request.user
-    # files = File.objects.all()
+def files_available(user, file_url=None):
     visible_files = []
-    for file in File.objects.all():
-        if user in file.members_allowed.all() or len(file.members_allowed.all()) == 0:
-            try:
-                file.file.size
+    if file_url:
+        print(file_url)
+        file = File.objects.get(url=file_url)
+        if file:
+            visible_files.append(file)
+    else:
+        for file in File.objects.all():
+            if user in file.members_allowed.all() or len(file.members_allowed.all()) == 0:
+                try:
+                    file.file.size
 
-                visible_files.append(file)
-            except Exception as e:
-                print(e)
-                pass
+                    visible_files.append(file)
+                except Exception as e:
+                    print(e)
+                    pass
 
-    context = {'files': visible_files}
-    return render(request, 'components/available_files.html', context)
+    return visible_files
 
 
 def send_file(request, filename):

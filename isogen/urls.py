@@ -6,8 +6,7 @@ from isogen import views
 urlpatterns = [
     url(r'^(find/.+)?$', views.directory),
     url(r'^directory/(find/.+)?', views.directory, name='directory'),
-    url(r'^download/?', views.downloads, name='downloads'),
-    url(r'^files/?', views.files_available),
+    url(r'^files/([a-zA-Z0-9._-]+)?', views.downloads),
     url(r'^get/?([a-zA-Z0-9-_]+)?', views.get),
     url(r'^put/', views.accept_file),
     url(r'^blog/', include("apps.blog.urls")),
