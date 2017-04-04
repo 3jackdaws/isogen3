@@ -3,6 +3,11 @@ from django.views.decorators.csrf import csrf_exempt
 from isogen.views import get_nav_form, get_user, json_response
 from .models import *
 from isogen.settings import DATABASES, BASE_DIR
+from isogen.utils import background
+
+
+
+
 
 def base(request):
     obj = {
@@ -11,17 +16,25 @@ def base(request):
     }
     return json_response(request, obj)
 
+KV_CACHE = {}
+
 @csrf_exempt
 def pair(request, key=None):
     obj = {}
     if request.POST:
         for key in request.POST:
-            print(key)
-            if key not in obj:
-                obj[key] = []
-            obj[key].append(Pair.objects.create(key=key, value=request.POST[key]).value)
+            # print(key)
+            if key not in KV_CACHE:
+                pairs = Pair.objects.all().filter(key=key)
+                KV_CACHE[key] = [x.value for x in list(pairs)]
+                new = Pair(key=key, value=request.POST[key])
+                KV_CACHE[key].append(new.value)
+                background(new.save)
+            obj[key] = KV_CACHE[key]
     else:
-        pairs = Pair.objects.all().filter(key=key)
-        obj[key] = [x.value for x in list(pairs)]
+        if key not in KV_CACHE:
+            pairs = Pair.objects.all().filter(key=key)
+            KV_CACHE[key] = [x.value for x in list(pairs)]
+        obj[key] = KV_CACHE[key]
 
     return json_response(request, obj)
