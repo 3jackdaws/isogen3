@@ -84,7 +84,7 @@
     }
 
     function PairAPIGetTime(callback){
-        var url = "/api/pair/test";
+        var url = "/api/key/get/test";
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if(xhr.readyState == 4){
@@ -98,7 +98,7 @@
     }
 
     function PairAPIPostTime(callback){
-        var url = "/api/pair/";
+        var url = "/api/key/add/test/";
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if(xhr.readyState == 4){
@@ -110,7 +110,7 @@
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         var start = performance.now();
-        xhr.send("test=donger&test=donger2");
+        xhr.send("text=donger");
     }
 </script>
 </body>

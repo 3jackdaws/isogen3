@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.base),
-    url(r'^pair/(.*)?', views.pair),
+    url(r'^key/add/(.*)?', views.key_append),
+    url(r'^key/get/(.*)?', views.key_get),
 
 ]
