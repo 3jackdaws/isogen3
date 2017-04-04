@@ -5,12 +5,14 @@ from isogen import views
 
 urlpatterns = [
     url(r'^(find/.+)?$', views.directory),
+    url(r'^api/', include("apps.api.urls")),
     url(r'^directory/(find/.+)?', views.directory, name='directory'),
     url(r'^files/([a-zA-Z0-9._-]+)?', views.files),
     url(r'^get/?([a-zA-Z0-9-_]+)?', views.get),
     url(r'^put/', views.accept_file),
     url(r'^blog/', include("apps.blog.urls")),
-
+    url(r'^status/', views.health_page),
+    url(r'^pair/', views.pair),
     url(r'^members/?([a-zA-Z0-9]+)?', views.members),
     url(r'^me/', views.me),
     url(r'^contact', views.error_ni),

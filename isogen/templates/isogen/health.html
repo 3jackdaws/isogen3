@@ -1,0 +1,116 @@
+{% include "components/head.html" %}
+<body>
+{% include "components/navigation.html" %}
+
+<div class="container" style="padding-top: 50px;">
+    <div class="box">
+        <h1 class="title">API Response Times</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Endpoint Name
+                    </th>
+                    <th>
+                        Endpoint URL
+                    </th>
+                    <th>
+                        Response Time (GET)
+                    </th>
+                    <th>
+                        Response Time (POST)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Base API</td>
+                    <td><a href="/api/">/api/</a></td>
+                    <td id="base-api-get"><span class="loader"></span></td>
+                    <td id="base-api-post">N/A</td>
+                </tr>
+                <tr>
+                    <td>Pair</td>
+                    <td><a href="/api/pair/">/api/pair/</a></td>
+                    <td id="pair-api-get"><span class="loader"></span></td>
+                    <td id="pair-api-post"><span class="loader"></span></td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% include 'components/footer.html' %}
+<script>
+    window.addEventListener("load", BenchmarkAll);
+
+    function BenchmarkAll(){
+        benchmark(getAPIResponseTime, "base-api-get");
+
+        benchmark(PairAPIGetTime, "pair-api-get");
+        benchmark(PairAPIPostTime, "pair-api-post");
+    }
+
+    function benchmark(func, divID){
+        var iterations = 3;
+        var times = [];
+        for(i = 0; i< iterations; i++){
+            func(function (time) {
+                times.push(time);
+                if(times.length == iterations){
+                    var sum = times.reduce(function (a, b) {
+                        return a + b;
+                    }, 0);
+                    document.getElementById(divID).innerHTML = parseInt(sum/iterations) + " ms";
+                }
+            });
+        }
+    }
+    function getAPIResponseTime(callback){
+        var url = "/api/";
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState == 4){
+                var duration = performance.now() - start;
+                callback(duration);
+            }
+        };
+        xhr.open("GET", url);
+        var start = performance.now();
+        xhr.send();
+
+    }
+
+    function PairAPIGetTime(callback){
+        var url = "/api/pair/test";
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState == 4){
+                var duration = performance.now() - start;
+                callback(duration);
+            }
+        };
+        xhr.open("GET", url);
+        var start = performance.now();
+        xhr.send();
+    }
+
+    function PairAPIPostTime(callback){
+        var url = "/api/pair/";
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState == 4){
+                var duration = performance.now() - start;
+                callback(duration);
+                console.log(xhr.responseText);
+            }
+        };
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var start = performance.now();
+        xhr.send("test=donger&test=donger2");
+    }
+</script>
+</body>

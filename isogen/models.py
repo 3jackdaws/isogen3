@@ -101,7 +101,8 @@ class File(Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        self.url = re.sub("[^a-zA-Z0-9.-]", "", str(self.file.name).replace(" ", "-"))
+        if self.url is None:
+            self.url = re.sub("[^a-zA-Z0-9.-]", "", str(self.file.name).replace(" ", "-"))
         super(File, self).save()
 
 

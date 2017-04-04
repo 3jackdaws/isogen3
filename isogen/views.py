@@ -283,5 +283,16 @@ def accept_file(request):
 
     return json_response(request, response)
 
+def health_page(request):
+    context = {
+
+    }
+    return render(request, 'isogen/health.html', context)
+
+def pair(request):
+    context = {
+
+    }
+    return render(request, 'isogen/pair.html', context)
 
 
