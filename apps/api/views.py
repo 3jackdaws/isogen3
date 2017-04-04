@@ -26,10 +26,13 @@ def pair(request, key=None):
             # print(key)
             if key not in KV_CACHE:
                 pairs = Pair.objects.all().filter(key=key)
+                print("Cache miss")
                 KV_CACHE[key] = [x.value for x in list(pairs)]
                 new = Pair(key=key, value=request.POST[key])
                 KV_CACHE[key].append(new.value)
                 background(new.save)
+            else:
+                print("Cache hit")
             obj[key] = KV_CACHE[key]
     else:
         if key not in KV_CACHE:
