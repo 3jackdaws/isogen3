@@ -3,7 +3,7 @@
         <div class="container">
             <nav class="panel" style="background-color: white">
                 <p class="panel-heading">
-                    Files
+                    <a href="/files/" >Files</a>
                     <a class="button is-primary is-outlined" onclick="activate(this); showTab(event, 'UploadFile')" style="float: right">
                         <span class="icon is-small">
                             <i class="fa fa-plus"></i>
@@ -53,18 +53,20 @@
                         {% for user in file.members_allowed.all %}
                         <span class="tag is-primary is-outline">{{ user }}</span>
                         {% endfor %}
-                        </span>
+                        </span><br>
+                        <strong>DESCRIPTION:</strong>
+                        <div class="content">
+                            {{ file.description }}
+                        </div>
                     </div>
 
-                    <div class="column is-narrow" >
+                    <div class="column is-narrow" style="text-align: center">
                         <a class="button is-primary is-outlined" href="/files/{{file.url}}" >SOLO</a>
-                        <a class="button is-primary is-outlined" href="/get/{{file.id}}" download>DOWNLOAD</a>
+                        <a class="button is-primary is-outlined" href="/get/{{file.id}}" download>DOWNLOAD</a><br>
+                        <i class="fa fa-placeholder" filename='{{ file.file.name }}' style="font-size: 5em; margin-top: 20px"></i>
                     </div>
                 </div>
-                <strong>DESCRIPTION:</strong>
-                <div class="content">
-                    {{ file.description }}
-                </div>
+
                 <br>
                 <strong>CONTENTS:</strong>
                 {% if file.contents %}

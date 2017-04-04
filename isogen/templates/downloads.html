@@ -52,7 +52,6 @@
             tabs[i].style.display = "none";
         }
         document.getElementById(tabName).style.display = "block";
-        console.log(document.getElementById(tabName));
     }
 
     function activate(item) {
@@ -83,6 +82,10 @@
                 if(on_receive_file) on_receive_file(result);
             }
         };
+        xhr.upload.addEventListener("progress", function (e) {
+            var percentDone = parseInt((e.loaded / e.total)*100);
+            setUploadBox("Uploading - " + percentDone + "%", "fa-cloud-upload", "filedrop");
+        });
         var formData = new FormData();
 
         formData.append("uploadedFile", file);
@@ -92,22 +95,6 @@
         xhr.send(formData);
     }
 
-
-    function populate_files(){
-        var spinner = '<div class="container is-flex" style="align-items: center; justify-content: center"><div class="loader" style="height: 100px; width: 100px"></div></div>';
-        var files_div = document.getElementById("files-container");
-        files_div.innerHTML = spinner;
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function (event) {
-            if (xhr.readyState == 4){
-                files_div.innerHTML = xhr.responseText;
-                swap_file_icons();
-            }
-        };
-        xhr.open('get', "/files/", true);
-        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-        xhr.send();
-    }
 
     function getFileFromInput(){
         var file = document.getElementById("fileInput").files[0];
@@ -120,7 +107,7 @@
             setUploadBox("File Upload Succeeded", "fa-check-circle-o", "success");
             setTimeout(function () {
                 window.location.reload();
-            }, 2000);
+            }, 1000);
         }else{
             setUploadBox("File Upload Failed", "fa-frown-o", "failure");
         }

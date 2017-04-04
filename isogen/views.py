@@ -52,7 +52,7 @@ def get_nav_form(request):
         login_logout_form = LoginForm
     return login_logout_form
 
-def downloads(request, file_name=None):
+def files(request, file_name=None):
     user = get_user(request)
     files = files_available(user, file_name)
     context = {"title": "Downloads - ISOGEN", "login_form":get_nav_form(request), "user":user, "files":files}
