@@ -284,8 +284,11 @@ def accept_file(request):
     return json_response(request, response)
 
 def health_page(request):
+    user = get_user(request)
     context = {
-
+        "user":user,
+        "title":"Website Status",
+        "login_form":get_nav_form(request)
     }
     return render(request, 'isogen/health.html', context)
 

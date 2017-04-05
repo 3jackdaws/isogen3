@@ -1,29 +1,29 @@
 import threading
-
-BACKGROUND_THREAD = None
+import time
 
 TASK_QUEUE = []
 
-def queue_task(target, *args, **kwargs):
-    global TASK_QUEUE, BACKGROUND_THREAD
-    thread = threading.Thread(target=wrap_task(target), args=args, kwargs=kwargs)
-    thread.setDaemon(True)
-    TASK_QUEUE.append(thread)
-    if BACKGROUND_THREAD is None:
-        print("pop")
-        BACKGROUND_THREAD = TASK_QUEUE.pop()
-        BACKGROUND_THREAD.start()
+class MemCache:
+    internal = {}
+    def __getattr__(self, item):
+        return self.internal[item]
 
-def wrap_task(task):
-    global BACKGROUND_THREAD
-    def wrapper(*args, **kwargs):
-        task(*args, **kwargs)
-        if len(TASK_QUEUE) > 0:
-            BACKGROUND_THREAD = TASK_QUEUE.pop()
-            BACKGROUND_THREAD.start()
-        else:
-            BACKGROUND_THREAD = None
-    return wrapper
+    def __setattr__(self, key, value):
+        self.internal[key] = value
+        return self.internal[key]
+
+cache = MemCache()
+
+def async_run(target, *args, **kwargs):
+    thread = threading.Thread(target=target, args=args, kwargs=kwargs)
+    thread.setDaemon(True)
+    thread.start()
+
+def async_defer(target, wait_for=1, *args, **kwargs):
+    def wrap(*args, **kwargs):
+        time.sleep(wait_for)
+        target(*args, **kwargs)
+    async_run(wrap, args, kwargs)
 
 
 def test_print(func, text):
